@@ -22,7 +22,7 @@ public class BufferedImageFactory implements ImageFactory
         if (f.exists()) {
             return loadImage(f);
         }
-        InputStream is = BufferedImage.class.getClassLoader().getResourceAsStream(file);
+        InputStream is = BufferedImageFactory.class.getClassLoader().getResourceAsStream(file);
         try {
             if (is != null) {
                 return loadImage(is);

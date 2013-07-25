@@ -1,0 +1,295 @@
+[
+    {
+        "type":"MONSTER_BODY",
+        "attachmentPoints" : [
+            {
+                "x": 12,
+                "y" : 58,
+                "angle" : -270,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs",
+                "flipVertical" : true
+            },
+            {
+                "x": 32,
+                "y" : 60,
+                "angle" : -270,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ]
+            },
+            {
+                "x": 50,
+                "y" : 59,
+                "angle" : -270,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                 "groupId" : "legs"
+            },
+
+            {
+                "x": 33,
+                "y" : 11,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_DECORATION"
+                ]
+            },
+
+            {
+                "x": 33,
+                "y" : 40,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_DECORATION"
+                ]
+            }
+
+        ],
+        "imageId" : "test_set/body1.png"
+    },
+
+    {
+        "type":"MONSTER_BODY",
+        "attachmentPoints" : [
+            {
+                "x": 12,
+                "y" : 58,
+                "angle" : -270,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs",
+                "flipVertical" : true
+            },
+            {
+                "x": 22,
+                "y" : 60,
+                "angle" : -270,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs2"
+            },
+            {
+                "x": 40,
+                "y" : 60,
+                "angle" : -270,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs2"
+            },
+            {
+                "x": 50,
+                "y" : 59,
+                "angle" : -270,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs"
+            },
+
+            {
+                "x": 14,
+                "y" : 12,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_DECORATION"
+                ]
+            },
+
+            {
+                "x": 47,
+                "y" : 13,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_DECORATION"
+                ]
+            }
+
+        ],
+        "imageId" : "test_set/body2.png",
+        "centerX" : 32,
+        "centerY" : 50
+    },
+
+    {
+        "type":"MONSTER_BODY",
+        "attachmentPoints" : [
+            {
+                "x": 6,
+                "y" : 14,
+                "angle" : 180,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs1",
+                "flipVertical" : true
+            },
+            {
+                "x": 9,
+                "y" : 34,
+                "angle" : 180,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs2",
+                "flipVertical" : true
+            },
+            {
+                "x": 60,
+                "y" : 15,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs1"
+            },
+            {
+                "x": 55,
+                "y" : 32,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs2"
+            },
+            {
+                "x": 33,
+                "y" : 57,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_DECORATION"
+                ]
+            },
+
+            {
+                "x": 33,
+                "y" : 40,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_DECORATION"
+                ]
+            }
+
+        ],
+        "imageId" : "test_set/body3.png",
+        "centerX" : 32,
+        "centerY" : 50
+    },
+
+    {
+        "type":"MONSTER_BODY",
+        "attachmentPoints" : [
+            {
+                "x": 31,
+                "y" : 40,
+                "angle" : 180,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "claws"
+            },
+            {
+                "x": 42,
+                "y" : 40,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "claws"
+            },
+
+            {
+                "x": 58,
+                "y" : 21,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_DECORATION"
+                ]
+            }
+
+        ],
+        "imageId" : "test_set/body4.png",
+        "centerX" : 32,
+        "centerY" : 50
+    },
+    {
+        "type":"MONSTER_BODY",
+        "attachmentPoints" : [
+            {
+                "x": 9,
+                "y" : 27,
+                "angle" : 120,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs1",
+                "flipVertical" : true
+            },
+            {
+                "x": 2,
+                "y" : 37,
+                "angle" : 180,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs2",
+                "flipVertical" : true
+            },
+            {
+                "x": 9,
+                "y" : 49,
+                "angle" : 220,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs3",
+                "flipVertical" : true
+            },
+            {
+                "x": 55,
+                "y" : 27,
+                "angle" : 60,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs1"
+            },
+            {
+                "x": 59,
+                "y" : 37,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs2"
+            },
+            {
+                "x": 55,
+                "y" : 49,
+                "angle" : 320,
+                "availableTypes" : [
+                    "MONSTER_LIMB"
+                ],
+                "groupId" : "legs3"
+            },
+
+            {
+                "x": 32,
+                "y" : 8,
+                "angle" : 0,
+                "availableTypes" : [
+                    "MONSTER_DECORATION"
+                ]
+            }
+        ],
+        "imageId" : "test_set/body5.png",
+        "centerX" : 32,
+        "centerY" : 50
+    }
+]

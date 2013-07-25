@@ -1,0 +1,17 @@
+{
+    "partFiles" : [
+            "resources/test_set/bodies.json"
+            , "resources/test_set/limbs.json"
+            , "resources/test_set/eyes.json"
+            , "resources/test_set/mouths.json"
+    ],
+
+    "bloodImages" : [
+            "resources/test_set/blood.png"
+            , "resources/test_set/blood2.png"
+    ],
+
+    "shadowImages" : [
+            "resources/test_set/shadow.png"
+    ]
+}

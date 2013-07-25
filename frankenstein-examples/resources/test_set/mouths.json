@@ -1,0 +1,54 @@
+[
+    {
+        "type": "MONSTER_DECORATION",
+        "attachmentPoints" : [
+            {
+                "x": 14,
+                "y" : 8,
+                "availableTypes" : [
+                    "MONSTER_BODY"
+                ]
+            }
+        ],
+        "imageId": "test_set/dec3.png"
+    },
+    {
+        "type": "MONSTER_DECORATION",
+        "attachmentPoints" : [
+            {
+                "x": 16,
+                "y": 11,
+                "availableTypes" : [
+                    "MONSTER_BODY"
+                ]
+            }
+        ],
+        "imageId": "test_set/mouth.png"
+    },
+    {
+        "type": "MONSTER_DECORATION",
+        "attachmentPoints" : [
+            {
+                "x": 12,
+                "y": 9,
+                "availableTypes" : [
+                    "MONSTER_BODY"
+                ]
+            }
+        ],
+        "imageId": "test_set/mouth1.png"
+    },
+    {
+        "type": "MONSTER_DECORATION",
+        "attachmentPoints" : [
+            {
+                "x": 7,
+                "y": 9,
+                "availableTypes" : [
+                    "MONSTER_BODY"
+                ]
+            }
+        ],
+        "imageId": "test_set/mouth2.png"
+    }
+]

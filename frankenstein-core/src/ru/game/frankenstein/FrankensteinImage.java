@@ -1,5 +1,7 @@
 package ru.game.frankenstein;
 
+import ru.game.frankenstein.util.Rectangle;
+
 /**
  * Base interface, wrapping all required image processing functionality
  */
@@ -18,7 +20,7 @@ public interface FrankensteinImage
     /**
      * Returns a copy of this image that is flipped horizontal or vertical or both
      */
-    public FrankensteinImage flip(boolean flipVertical, boolean flipHorizontal);
+    public FrankensteinImage flip(boolean flipHorizontal, boolean flipVertical);
 
     /**
      * Draw other image on this one in given coordinates and rotation.
@@ -30,4 +32,9 @@ public interface FrankensteinImage
      * @param angle Angle of rotation of other image, around given center
      */
     public void draw(FrankensteinImage other, int x, int y, int rotationCenterX, int rotationCenterY, int angle);
+
+    /**
+     * Get a cropped copy of this image
+     */
+    public FrankensteinImage getSubImage(Rectangle rectangle);
 }
