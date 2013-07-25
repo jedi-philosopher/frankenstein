@@ -21,21 +21,21 @@ public class AttachmentPoint
      */
     public final String groupId;
 
-    public final boolean flipX;
+    public final boolean flipHorizontal;
 
-    public final boolean flipY;
+    public final boolean flipVertical;
 
     public AttachmentPoint(int x, int y, int angle, MonsterPartType[] availableTypes) {
         this(x, y, angle, availableTypes, null, false, false);
     }
 
-    public AttachmentPoint(int x, int y, int angle, MonsterPartType[] availableTypes, String groupId, boolean flipX, boolean flipY) {
+    public AttachmentPoint(int x, int y, int angle, MonsterPartType[] availableTypes, String groupId, boolean flipHorizontal, boolean flipVertical) {
         this.x = x;
         this.y = y;
         this.angle = angle;
         this.availableTypes = availableTypes;
         this.groupId = groupId;
-        this.flipX = flipX;
-        this.flipY = flipY;
+        this.flipHorizontal = flipHorizontal;
+        this.flipVertical = flipVertical;
     }
 }

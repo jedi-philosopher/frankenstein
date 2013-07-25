@@ -1,7 +1,9 @@
 package ru.game.frankenstein;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,6 +32,11 @@ public class MonsterPartsSet
      */
     private FrankensteinImage shadowImage;
 
+    public MonsterPartsSet() {
+        baseColors = new HashMap<Integer, Color>();
+        parts = new HashMap<MonsterPartType, Collection<MonsterPart>>();
+    }
+
     public MonsterPartsSet(Map<Integer, Color> baseColors, Map<MonsterPartType, Collection<MonsterPart>> parts, FrankensteinImage[] bloodImages, FrankensteinImage shadowImage) {
         this.baseColors = baseColors;
         this.parts = parts;
@@ -51,5 +58,17 @@ public class MonsterPartsSet
 
     public FrankensteinImage getShadowImage() {
         return shadowImage;
+    }
+
+    public void addParts(MonsterPart... newParts)
+    {
+        for (MonsterPart part : newParts) {
+            Collection<MonsterPart> collection = parts.get(part.type);
+            if (collection == null) {
+                collection = new ArrayList<MonsterPart>();
+            }
+            collection.add(part);
+            parts.put(part.type, collection);
+        }
     }
 }

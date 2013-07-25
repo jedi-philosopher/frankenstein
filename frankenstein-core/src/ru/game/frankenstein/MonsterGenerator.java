@@ -5,9 +5,10 @@ import ru.game.frankenstein.impl.MonsterGenerationContext;
 import ru.game.frankenstein.util.CollectionUtils;
 import ru.game.frankenstein.util.GeometryUtils;
 import ru.game.frankenstein.util.Point;
+import ru.game.frankenstein.util.Rectangle;
 
-import java.awt.*;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main class, performs actual monster generation
@@ -29,41 +30,65 @@ public class MonsterGenerator
         this.partsSet = partsSet;
     }
 
-    public Monster generateMonster(MonsterGenerationParams params)
+    public Monster generateMonster(MonsterGenerationParams params) throws FrankensteinException
     {
-        return null;
+        MonsterGenerationContext context = new MonsterGenerationContext(myImageFactory);
+
+        // first select main body
+        MonsterPart part = CollectionUtils.selectRandomElement(partsSet.getParts().get(MonsterPartType.MONSTER_BODY));
+        final int centerX = MonsterGenerationContext.CANVAS_WIDTH / 2;
+        final int centerY = MonsterGenerationContext.CANVAS_HEIGHT / 2;
+        context.getCanvas().draw(part.getImage(myImageFactory), centerX, centerY, 0, 0, 0);
+
+        context.getCropRect().setCoordinates(centerX, centerY, part.getImage(myImageFactory).getWidth(), part.getImage(myImageFactory).getHeight());
+        // now select limbs and other parts
+        processPart(context, new Point(centerX, centerY), part);
+
+       /* Image img = colorise(canvas.getSubImage((int) cropRect.getX(), (int) cropRect.getY(), (int) cropRect.getWidth(), (int) cropRect.getHeight()), CollectionUtils.selectRandomElement(allowedColors));
+        Image imgWithShadow;
+        try {
+            imgWithShadow = new Image(img.getWidth(), img.getHeight() + 16);
+            imgWithShadow.getGraphics().drawImage(shadowImages, (imgWithShadow.getWidth() - shadowImages.getWidth()) / 2, imgWithShadow.getHeight() - shadowImages.getHeight());
+            imgWithShadow.getGraphics().drawImage(img, 0, 0);
+        } catch (SlickException e) {
+            e.printStackTrace();
+            imgWithShadow = img;
+        }
+        Image corpseImg = createCorpseImage(img);
+        desc.setImages(imgWithShadow, corpseImg);*/
+
+        return new Monster(context.getCroppedImage());
     }
 
     /**
      * Takes given monster part and adds it to a canvas
 
      */
-    private void addPartToCanvas(MonsterGenerationContext context, Point anchor, AttachmentPoint sourcePoint, AttachmentPoint partPoint, MonsterPart part)
-    {
+    private void addPartToCanvas(MonsterGenerationContext context, Point anchor, AttachmentPoint sourcePoint, AttachmentPoint partPoint, MonsterPart part) throws FrankensteinException {
         int centerX = partPoint.x;
         int centerY = partPoint.y;
 
-        FrankensteinImage image = part.image;
-        if (sourcePoint.flipX || sourcePoint.flipY) {
-            if (sourcePoint.flipX) {
-                centerX = part.image.getWidth() - centerX;
+        FrankensteinImage image = part.getImage(myImageFactory);
+        if (sourcePoint.flipHorizontal || sourcePoint.flipVertical) {
+            if (sourcePoint.flipHorizontal) {
+                centerX = part.getImage(myImageFactory).getWidth() - centerX;
             }
-            if (sourcePoint.flipY) {
-                centerY = part.image.getHeight() - centerY;
+            if (sourcePoint.flipVertical) {
+                centerY = part.getImage(myImageFactory).getHeight() - centerY;
             }
-            image = part.image.flip(sourcePoint.flipX, sourcePoint.flipY);
+            image = part.getImage(myImageFactory).flip(sourcePoint.flipHorizontal, sourcePoint.flipVertical);
         }
 
         int x = anchor.x + sourcePoint.x - centerX;
         int y = anchor.y + sourcePoint.y - centerY;
 
-        context.getCanvas().draw(part.image, x, y, centerX, centerY, sourcePoint.angle);
+        context.getCanvas().draw(part.getImage(myImageFactory), x, y, centerX, centerY, sourcePoint.angle);
 
         Rectangle AABB = GeometryUtils.getRotatedRectangleAABB(x + centerX, y + centerY, x, y, x + image.getWidth(), y + image.getHeight(), (float) Math.toRadians(sourcePoint.angle));
 
-        int cropX = (int) Math.min(context.getCropRect().getX(), AABB.getX());
-        int cropY = (int) Math.min(context.getCropRect().getY(), AABB.getY());
-        context.getCropRect().setBounds(cropX, cropY, (int)Math.max(context.getCropRect().getX() + context.getCropRect().getWidth(), AABB.getX() + AABB.getWidth()) - cropX, (int)Math.max(context.getCropRect().getY() + context.getCropRect().getHeight(), AABB.getY() + AABB.getHeight()) - cropY);
+        int cropX = Math.min(context.getCropRect().getX(), AABB.getX());
+        int cropY = Math.min(context.getCropRect().getY(), AABB.getY());
+        context.getCropRect().setCoordinates(cropX, cropY, Math.max(context.getCropRect().getX() + context.getCropRect().getWidth(), AABB.getX() + AABB.getWidth()) - cropX, Math.max(context.getCropRect().getY() + context.getCropRect().getHeight(), AABB.getY() + AABB.getHeight()) - cropY);
 
     }
 
@@ -81,23 +106,42 @@ public class MonsterGenerator
         return CollectionUtils.selectRandomElement(partsSet.getParts().get(type));
     }
 
-    private int processPart(MonsterGenerationContext context, Point root, MonsterPart part, int bodyCount, Map<String, MonsterPart> groups) {
+    private void processPart(MonsterGenerationContext context, Point root, MonsterPart part) throws FrankensteinException {
         for (AttachmentPoint ap : part.attachmentPoints) {
             MonsterPart newPart = null;
-            if (ap.groupId == null) {
-                newPart = selectRandomPartForPoint(context, ap);
-            } else {
-                newPart = groups.get(ap.groupId);
-                if (newPart == null) {
+            AttachmentPoint partPoint = null;
+            do {
+                if (ap.groupId == null) {
                     newPart = selectRandomPartForPoint(context, ap);
-                    groups.put(ap.groupId, newPart);
+                } else {
+                    newPart = context.getGroups().get(ap.groupId);
+                    if (newPart == null) {
+                        newPart = selectRandomPartForPoint(context, ap);
+                        context.getGroups().put(ap.groupId, newPart);
+                    }
                 }
+
+                // check that this part can be attached to this source
+                List<AttachmentPoint> newPartPoints = new ArrayList<AttachmentPoint>();
+                for (AttachmentPoint newPartPoint: newPart.attachmentPoints) {
+                    for (MonsterPartType mpt : newPartPoint.availableTypes) {
+                        if (mpt == part.type) {
+                            newPartPoints.add(newPartPoint);
+                        }
+                    }
+                }
+                if (newPartPoints.isEmpty()) {
+                    // this part has no points for attaching to current root
+                    continue;
+                }
+                partPoint = CollectionUtils.selectRandomElement(newPartPoints);
+                break;
+            } while (true);
+
+            if (newPart.type == MonsterPartType.MONSTER_BODY) {
+                context.addBody();
             }
-
-            addPartToCanvas(context, root, ap, null, newPart);
-
-            bodyCount += processPart(context, new Point(ap.x, ap.y), newPart, bodyCount, groups);
+            addPartToCanvas(context, root, ap, partPoint, newPart);
         }
-        return bodyCount;
     }
 }

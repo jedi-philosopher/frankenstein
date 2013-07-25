@@ -1,9 +1,9 @@
 package ru.game.frankenstein;
 
 /**
-* Class for a piece of a monster. It can be a limb, body or decoration like mouth or eyes.
-* Monster is created by combining these parts
-*/
+ * Class for a piece of a monster. It can be a limb, body or decoration like mouth or eyes.
+ * Monster is created by combining these parts
+ */
 public class MonsterPart
 {
     public final MonsterPartType type;
@@ -35,7 +35,7 @@ public class MonsterPart
     /**
      * Cached image, retrieved using imageId
      */
-    public transient FrankensteinImage image = null;
+    private transient FrankensteinImage image = null;
 
     public MonsterPart(MonsterPartType type, AttachmentPoint[] attachmentPoints, String imageId, String[] tags, String[] textDescriptions) {
         this.type = type;
@@ -43,5 +43,12 @@ public class MonsterPart
         this.imageId = imageId;
         this.tags = tags;
         this.textDescriptions = textDescriptions;
+    }
+
+    public FrankensteinImage getImage(ImageFactory imageFactory) throws FrankensteinException {
+        if (image == null) {
+            image = imageFactory.loadImage(imageId);
+        }
+        return image;
     }
 }

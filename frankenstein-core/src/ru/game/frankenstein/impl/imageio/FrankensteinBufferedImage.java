@@ -1,9 +1,11 @@
 package ru.game.frankenstein.impl.imageio;
 
 import ru.game.frankenstein.FrankensteinImage;
+import ru.game.frankenstein.util.Rectangle;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 /**
@@ -28,8 +30,30 @@ public class FrankensteinBufferedImage implements FrankensteinImage
     }
 
     @Override
-    public FrankensteinImage flip(boolean flipVertical, boolean flipHorizontal) {
-        return null;
+    public FrankensteinImage flip(boolean flipHorizontal, boolean flipVertical) {
+        AffineTransform tx;
+        AffineTransformOp op;
+        if (flipVertical && ! flipHorizontal) {
+            tx = AffineTransform.getScaleInstance(1, -1);
+            tx.translate(0, -myImage.getHeight(null));
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            return new FrankensteinBufferedImage(op.filter(myImage, null));
+        }
+
+        if (flipHorizontal && !flipVertical) {
+            // Flip the image horizontally
+            tx = AffineTransform.getScaleInstance(-1, 1);
+            tx.translate(-myImage.getWidth(null), 0);
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            return new FrankensteinBufferedImage(op.filter(myImage, null));
+        }
+
+        // Flip the image vertically and horizontally;
+        // equivalent to rotating the image 180 degrees
+        tx = AffineTransform.getScaleInstance(-1, -1);
+        tx.translate(-myImage.getWidth(null), -myImage.getHeight(null));
+        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        return new FrankensteinBufferedImage(op.filter(myImage, null));
     }
 
     @Override
@@ -43,8 +67,19 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         }
 
         AffineTransform at = new AffineTransform();
-        at.rotate(Math.toRadians(angle), rotationCenterX, rotationCenterY);
         at.translate(x, y);
+        if (angle != 0) {
+            at.rotate(Math.toRadians(angle), rotationCenterX, rotationCenterY);
+        }
         ((Graphics2D)myImage.getGraphics()).drawImage(((FrankensteinBufferedImage)other).myImage, at, null);
+    }
+
+    @Override
+    public FrankensteinImage getSubImage(Rectangle rectangle) {
+        return new FrankensteinBufferedImage(myImage.getSubimage(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight()));
+    }
+
+    public BufferedImage getImpl() {
+        return myImage;
     }
 }
