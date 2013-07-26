@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Class-Path: gson-2.2.4-sources.jar gson-2.2.4-javadoc.jar gson-2.2.4.j
+ ar gson-2.2.4-sources.jar gson-2.2.4-javadoc.jar gson-2.2.4.jar commo
+ ns-cli-1.2-javadoc.jar commons-cli-1.2-sources.jar commons-cli-1.2.ja
+ r commons-cli-1.2-javadoc.jar commons-cli-1.2-sources.jar commons-cli
+ -1.2.jar
+Main-Class: ru.game.frankenstein.testapp.FrankensteinTestApp
+
