@@ -5,8 +5,8 @@ import ru.game.frankenstein.util.Rectangle;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
+import java.util.Map;
 
 /**
  * Implementation of a FrankensteinImage that uses java standard BufferedImage class
@@ -17,6 +17,11 @@ public class FrankensteinBufferedImage implements FrankensteinImage
 
     public FrankensteinBufferedImage(BufferedImage myImage) {
         this.myImage = myImage;
+        // make sure this image is always in ARGB format
+        if (myImage.getType() != BufferedImage.TYPE_INT_ARGB) {
+            ColorConvertOp cco = new ColorConvertOp(myImage.getColorModel().getColorSpace(), java.awt.color.ColorSpace.getInstance(java.awt.color.ColorSpace.CS_sRGB), null);
+            this.myImage = cco.filter(myImage, null);
+        }
     }
 
     @Override
@@ -77,6 +82,41 @@ public class FrankensteinBufferedImage implements FrankensteinImage
     @Override
     public FrankensteinImage getSubImage(Rectangle rectangle) {
         return new FrankensteinBufferedImage(myImage.getSubimage(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight()));
+    }
+
+    @Override
+    public FrankensteinImage replaceColors(Map<Color, Integer> sourceColors, Map<Integer, Color> newColors) {
+        if (sourceColors == null || sourceColors.isEmpty() || newColors == null || newColors.isEmpty()) {
+            return this;
+        }
+        Raster raster = myImage.getData();
+        BufferedImage newImage = new BufferedImage(myImage.getWidth(), myImage.getHeight(), myImage.getType());
+        WritableRaster newRaster = newImage.getWritableTile(0, 0);
+
+        int[] tmpArray = new int[4];
+        for (int i = 0; i < myImage.getWidth(); ++i) {
+            for (int j = 0; j < myImage.getHeight(); ++j) {
+                raster.getPixel(i, j, tmpArray);
+                // raster is RGBA even if image is ARGB O_o
+                Color color = new Color(tmpArray[0], tmpArray[1], tmpArray[2]);
+                Integer id = sourceColors.get(color);
+                if (id != null) {
+                    Color newColor = newColors.get(id);
+                    if (newColor != null) {
+                        // leave same alpha, replace only color components
+                        tmpArray[0] = newColor.getRed();
+                        tmpArray[1] = newColor.getGreen();
+                        tmpArray[2] = newColor.getBlue();
+                        newRaster.setPixel(i, j, tmpArray);
+                        continue;
+                    }
+                }
+                // no mapping for this color, write it as it is
+                newRaster.setPixel(i, j, tmpArray);
+            }
+        }
+
+        return new FrankensteinBufferedImage(newImage);
     }
 
     public BufferedImage getImpl() {

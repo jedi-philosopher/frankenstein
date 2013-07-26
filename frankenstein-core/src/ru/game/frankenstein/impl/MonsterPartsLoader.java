@@ -25,7 +25,7 @@ public class MonsterPartsLoader
 
     public static class MonsterPartsSetJSONDescription
     {
-        public final Map<Integer, String> defaultColors;
+        public final Map<String, Integer> defaultColors;
 
         public final String[] partFiles;
 
@@ -33,7 +33,7 @@ public class MonsterPartsLoader
 
         public final String[] shadowImages;
 
-        public MonsterPartsSetJSONDescription(Map<Integer, String> defaultColors, String[] partFiles, String[] bloodImages, String[] shadowImages) {
+        public MonsterPartsSetJSONDescription(Map<String, Integer> defaultColors, String[] partFiles, String[] bloodImages, String[] shadowImages) {
             this.defaultColors = defaultColors;
             this.partFiles = partFiles;
             this.bloodImages = bloodImages;

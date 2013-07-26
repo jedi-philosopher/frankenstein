@@ -17,7 +17,7 @@ public abstract class CollectionUtils {
         return elems[elemIdx];
     }
 
-    public static final <T> T selectRandomElement(Random random, T... elems) {
+    public static <T> T selectRandomElement(Random random, T... elems) {
         if (elems.length == 0) {
             return null;
         }

@@ -6,6 +6,8 @@ import ru.game.frankenstein.impl.imageio.FrankensteinBufferedImage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +20,7 @@ public class TestBufferedImage
     final int TEST_IMAGE_SIZE = 16;
     public BufferedImage createBlankImage()
     {
-        BufferedImage bi = new BufferedImage(TEST_IMAGE_SIZE, TEST_IMAGE_SIZE, BufferedImage.TYPE_3BYTE_BGR);
+        BufferedImage bi = new BufferedImage(TEST_IMAGE_SIZE, TEST_IMAGE_SIZE, BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.getGraphics();
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, TEST_IMAGE_SIZE, TEST_IMAGE_SIZE);
@@ -71,5 +73,26 @@ public class TestBufferedImage
         Assert.assertEquals(result.getRGB(0, TEST_IMAGE_SIZE - 1), Color.WHITE.getRGB());
         Assert.assertEquals(result.getRGB(TEST_IMAGE_SIZE - 1, 0), Color.WHITE.getRGB());
         Assert.assertEquals(result.getRGB(TEST_IMAGE_SIZE - 1, TEST_IMAGE_SIZE - 1), Color.RED.getRGB());
+    }
+
+    @Test
+    public void testReplaceColor()
+    {
+        BufferedImage bi = createBlankImage();
+        bi.setRGB(0, 0, Color.RED.getRGB());
+        bi.setRGB(0, 1, Color.GREEN.getRGB());
+
+        Map<Color, Integer> sourceMap = new HashMap<Color, Integer>();
+        sourceMap.put(Color.RED, 1);
+
+        Map<Integer, Color> targetMap = new HashMap<Integer, Color>();
+        targetMap.put(1, Color.YELLOW);
+
+        FrankensteinBufferedImage fbi = (FrankensteinBufferedImage) new FrankensteinBufferedImage(bi).replaceColors(sourceMap, targetMap);
+        BufferedImage result = fbi.getImpl();
+
+        Assert.assertEquals(result.getRGB(0, 0), Color.YELLOW.getRGB());
+        Assert.assertEquals(result.getRGB(0, 1), Color.GREEN.getRGB());
+        Assert.assertEquals(result.getRGB(0, 2), Color.WHITE.getRGB());
     }
 }

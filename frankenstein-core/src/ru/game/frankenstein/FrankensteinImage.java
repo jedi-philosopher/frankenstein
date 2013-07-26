@@ -2,6 +2,9 @@ package ru.game.frankenstein;
 
 import ru.game.frankenstein.util.Rectangle;
 
+import java.awt.*;
+import java.util.Map;
+
 /**
  * Base interface, wrapping all required image processing functionality
  */
@@ -37,4 +40,6 @@ public interface FrankensteinImage
      * Get a cropped copy of this image
      */
     public FrankensteinImage getSubImage(Rectangle rectangle);
+
+    public FrankensteinImage replaceColors(Map<Color, Integer> sourceColors, Map<Integer, Color> newColors);
 }
