@@ -90,7 +90,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
             return this;
         }
         Raster raster = myImage.getData();
-        BufferedImage newImage = new BufferedImage(myImage.getWidth(), myImage.getHeight(), myImage.getType());
+        BufferedImage newImage = new BufferedImage(myImage.getWidth(), myImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
         WritableRaster newRaster = newImage.getWritableTile(0, 0);
 
         int[] tmpArray = new int[4];

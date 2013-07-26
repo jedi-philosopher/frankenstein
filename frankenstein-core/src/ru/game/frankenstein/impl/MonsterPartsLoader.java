@@ -11,10 +11,12 @@ import com.google.gson.JsonSyntaxException;
 import ru.game.frankenstein.MonsterPart;
 import ru.game.frankenstein.MonsterPartsSet;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -54,6 +56,14 @@ public class MonsterPartsLoader
                 System.err.println("Failed to parse json file " + filePath);
                 throw ex;
             }
+        }
+
+        if (descr.defaultColors != null) {
+            Map<Color, Integer> colorMap = new HashMap<Color, Integer>();
+            for (Map.Entry<String, Integer> e : descr.defaultColors.entrySet()) {
+                colorMap.put(Color.decode(e.getKey()), e.getValue());
+            }
+            result.setBaseColors(colorMap);
         }
 
         return result;

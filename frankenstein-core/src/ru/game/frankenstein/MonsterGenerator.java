@@ -44,6 +44,12 @@ public class MonsterGenerator
         // now select limbs and other parts
         processPart(context, new Point(centerX, centerY), part);
 
+
+        FrankensteinImage resultMonsterImage = context.getCroppedImage();
+
+        resultMonsterImage = resultMonsterImage.replaceColors(partsSet.getBaseColors(), params.colorMap);
+
+
        /* Image img = colorise(canvas.getSubImage((int) cropRect.getX(), (int) cropRect.getY(), (int) cropRect.getWidth(), (int) cropRect.getHeight()), CollectionUtils.selectRandomElement(allowedColors));
         Image imgWithShadow;
         try {
@@ -57,7 +63,7 @@ public class MonsterGenerator
         Image corpseImg = createCorpseImage(img);
         desc.setImages(imgWithShadow, corpseImg);*/
 
-        return new Monster(context.getCroppedImage());
+        return new Monster(resultMonsterImage);
     }
 
     /**

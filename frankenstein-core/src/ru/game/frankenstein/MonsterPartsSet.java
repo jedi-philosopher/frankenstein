@@ -71,4 +71,8 @@ public class MonsterPartsSet
             parts.put(part.type, collection);
         }
     }
+
+    public void setBaseColors(Map<Color, Integer> baseColors) {
+        this.baseColors = baseColors;
+    }
 }
