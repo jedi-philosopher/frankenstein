@@ -69,7 +69,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         AffineTransform at = new AffineTransform();
         at.translate(x, y);
         if (angle != 0) {
-            at.rotate(Math.toRadians(angle), rotationCenterX, rotationCenterY);
+            at.rotate(-Math.toRadians(angle), rotationCenterX, rotationCenterY);
         }
         ((Graphics2D)myImage.getGraphics()).drawImage(((FrankensteinBufferedImage)other).myImage, at, null);
     }

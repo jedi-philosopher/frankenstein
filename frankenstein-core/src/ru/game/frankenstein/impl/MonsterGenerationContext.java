@@ -2,6 +2,7 @@ package ru.game.frankenstein.impl;
 
 import ru.game.frankenstein.FrankensteinImage;
 import ru.game.frankenstein.ImageFactory;
+import ru.game.frankenstein.MonsterGenerationParams;
 import ru.game.frankenstein.MonsterPart;
 import ru.game.frankenstein.util.Rectangle;
 
@@ -34,9 +35,12 @@ public class MonsterGenerationContext
 
     public static final int CANVAS_HEIGHT = 400;
 
-    public MonsterGenerationContext(ImageFactory imageFactory)
+    private final MonsterGenerationParams params;
+
+    public MonsterGenerationContext(ImageFactory imageFactory, MonsterGenerationParams params)
     {
-        canvas = imageFactory.createImage(CANVAS_WIDTH, CANVAS_HEIGHT);
+        this.canvas = imageFactory.createImage(CANVAS_WIDTH, CANVAS_HEIGHT);
+        this.params = params;
     }
 
 
@@ -64,5 +68,9 @@ public class MonsterGenerationContext
     public FrankensteinImage getCroppedImage()
     {
         return canvas.getSubImage(cropRect);
+    }
+
+    public MonsterGenerationParams getParams() {
+        return params;
     }
 }

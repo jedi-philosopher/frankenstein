@@ -17,6 +17,13 @@ public abstract class CollectionUtils {
         return elems[elemIdx];
     }
 
+    public static final <T> T selectRandomElement(Random random, T... elems) {
+        if (elems.length == 0) {
+            return null;
+        }
+        return elems[random.nextInt(elems.length)];
+    }
+
     /**
      * Selects random element from collection
      *
@@ -37,6 +44,21 @@ public abstract class CollectionUtils {
         }
         throw new IllegalStateException("Should never get here");
     }
+
+    public static <T> T selectRandomElement(Random random, Collection<? extends T> coll) {
+        if (coll == null || coll.isEmpty()) {
+            return null;
+        }
+        final int elemIdx = random.nextInt(coll.size());
+        int curIdx = 0;
+        for (T elem : coll) {
+            if (curIdx++ == elemIdx) {
+                return elem;
+            }
+        }
+        throw new IllegalStateException("Should never get here");
+    }
+
 
     public static <T> List<T> selectRandomElementToCollection(Collection<? extends T> coll) {
         if (coll == null || coll.isEmpty()) {
