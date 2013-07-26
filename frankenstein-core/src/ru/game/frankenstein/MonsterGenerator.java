@@ -32,10 +32,10 @@ public class MonsterGenerator
 
     public Monster generateMonster(MonsterGenerationParams params) throws FrankensteinException
     {
-        MonsterGenerationContext context = new MonsterGenerationContext(myImageFactory);
+        MonsterGenerationContext context = new MonsterGenerationContext(myImageFactory, params);
 
         // first select main body
-        MonsterPart part = CollectionUtils.selectRandomElement(partsSet.getParts().get(MonsterPartType.MONSTER_BODY));
+        MonsterPart part = CollectionUtils.selectRandomElement(params.random, partsSet.getParts().get(MonsterPartType.MONSTER_BODY));
         final int centerX = MonsterGenerationContext.CANVAS_WIDTH / 2;
         final int centerY = MonsterGenerationContext.CANVAS_HEIGHT / 2;
         context.getCanvas().draw(part.getImage(myImageFactory), centerX, centerY, 0, 0, 0);
@@ -82,7 +82,7 @@ public class MonsterGenerator
         int x = anchor.x + sourcePoint.x - centerX;
         int y = anchor.y + sourcePoint.y - centerY;
 
-        context.getCanvas().draw(part.getImage(myImageFactory), x, y, centerX, centerY, sourcePoint.angle);
+        context.getCanvas().draw(image, x, y, centerX, centerY, sourcePoint.angle);
 
         Rectangle AABB = GeometryUtils.getRotatedRectangleAABB(x + centerX, y + centerY, x, y, x + image.getWidth(), y + image.getHeight(), (float) Math.toRadians(sourcePoint.angle));
 
@@ -93,7 +93,7 @@ public class MonsterGenerator
     }
 
     private MonsterPart selectRandomPartForPoint(MonsterGenerationContext context, AttachmentPoint ap) {
-        MonsterPartType type = CollectionUtils.selectRandomElement(ap.availableTypes);
+        MonsterPartType type = CollectionUtils.selectRandomElement(context.getParams().random, ap.availableTypes);
         if (type == MonsterPartType.MONSTER_BODY && context.getBodyCount()>= BODY_LIMIT) {
             for (MonsterPartType pt : ap.availableTypes) {
                 if (pt != MonsterPartType.MONSTER_BODY) {
@@ -103,13 +103,13 @@ public class MonsterGenerator
             }
         }
 
-        return CollectionUtils.selectRandomElement(partsSet.getParts().get(type));
+        return CollectionUtils.selectRandomElement(context.getParams().random, partsSet.getParts().get(type));
     }
 
     private void processPart(MonsterGenerationContext context, Point root, MonsterPart part) throws FrankensteinException {
         for (AttachmentPoint ap : part.attachmentPoints) {
-            MonsterPart newPart = null;
-            AttachmentPoint partPoint = null;
+            MonsterPart newPart;
+            AttachmentPoint partPoint;
             do {
                 if (ap.groupId == null) {
                     newPart = selectRandomPartForPoint(context, ap);
@@ -134,7 +134,7 @@ public class MonsterGenerator
                     // this part has no points for attaching to current root
                     continue;
                 }
-                partPoint = CollectionUtils.selectRandomElement(newPartPoints);
+                partPoint = CollectionUtils.selectRandomElement(context.getParams().random, newPartPoints);
                 break;
             } while (true);
 

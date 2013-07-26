@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Test application that creates some monster images using test image set
@@ -30,7 +31,8 @@ public class FrankensteinTestApp
 
         Options options = new Options().addOption("c", "count", true, "Number of monster images to generate. Defaults to 3")
                 .addOption("o", "output", true, "Output dir")
-                .addOption("i", "input", true, "Input json file with part library description");
+                .addOption("i", "input", true, "Input json file with part library description")
+                .addOption("s", "seed", true, "Initial seed for random generator. Same seed value will produce same monsters");
 
         CommandLine commandLine;
         try {
@@ -70,8 +72,8 @@ public class FrankensteinTestApp
                 return;
             }
         }
-
-        MonsterGenerationParams params = new MonsterGenerationParams(false, false, null);
+        Random myRandom = commandLine.hasOption('s') ? new Random(Integer.parseInt(commandLine.getOptionValue('s'))) : new Random();
+        MonsterGenerationParams params = new MonsterGenerationParams(false, false, null, myRandom);
         for (int i = 0; i < count; ++i)
         {
             Monster m;
