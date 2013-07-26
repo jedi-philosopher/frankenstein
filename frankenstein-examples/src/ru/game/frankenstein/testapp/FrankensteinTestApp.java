@@ -11,8 +11,11 @@ import ru.game.frankenstein.*;
 import ru.game.frankenstein.impl.MonsterPartsLoader;
 import ru.game.frankenstein.impl.imageio.BufferedImageFactory;
 import ru.game.frankenstein.impl.imageio.FrankensteinBufferedImage;
+import ru.game.frankenstein.util.CollectionUtils;
+import ru.game.frankenstein.util.ColorUtils;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +27,8 @@ import java.util.Random;
  */
 public class FrankensteinTestApp
 {
+    public static Color[] supportedColors =  {new Color(0x00697436), new Color(0x00a12e00), new Color(0x00ad5400), new Color(0x005f4d96), new Color(0x00966e00)};
+
     public static void main(String[] args)
     {
         PosixParser parser = new PosixParser();
@@ -78,6 +83,7 @@ public class FrankensteinTestApp
         {
             Monster m;
             try {
+                params.colorMap = ColorUtils.createColorGradient(CollectionUtils.selectRandomElement(myRandom, supportedColors), 4);
                 m = generator.generateMonster(params);
             } catch (FrankensteinException e) {
                 System.err.println("Failed to generate monster image");
