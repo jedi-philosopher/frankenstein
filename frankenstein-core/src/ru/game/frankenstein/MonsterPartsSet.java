@@ -13,9 +13,9 @@ public class MonsterPartsSet
 {
     /**
      * Colors that are used in current part set and that can be replaced when colorizing a monster.
-     * Start from 1, which is the darkest color.
+     * Mapping from actual color to ID.
      */
-    private Map<Integer, Color> baseColors;
+    private Map<Color, Integer> baseColors;
 
     /**
      * Parts used in this set
@@ -33,18 +33,18 @@ public class MonsterPartsSet
     private FrankensteinImage shadowImage;
 
     public MonsterPartsSet() {
-        baseColors = new HashMap<Integer, Color>();
+        baseColors = new HashMap<Color, Integer>();
         parts = new HashMap<MonsterPartType, Collection<MonsterPart>>();
     }
 
-    public MonsterPartsSet(Map<Integer, Color> baseColors, Map<MonsterPartType, Collection<MonsterPart>> parts, FrankensteinImage[] bloodImages, FrankensteinImage shadowImage) {
+    public MonsterPartsSet(Map<Color, Integer> baseColors, Map<MonsterPartType, Collection<MonsterPart>> parts, FrankensteinImage[] bloodImages, FrankensteinImage shadowImage) {
         this.baseColors = baseColors;
         this.parts = parts;
         this.bloodImages = bloodImages;
         this.shadowImage = shadowImage;
     }
 
-    public Map<Integer, Color> getBaseColors() {
+    public Map<Color, Integer> getBaseColors() {
         return baseColors;
     }
 
