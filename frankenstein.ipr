@@ -1,5 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactManager">
+    <artifact name="Distribution">
+      <output-path>$PROJECT_DIR$/out/artifacts/Distribution</output-path>
+      <root id="root">
+        <element id="artifact" artifact-name="frankenstein-core:jar" />
+        <element id="artifact" artifact-name="frankenstein-examples:jar" />
+        <element id="directory" name="resources">
+          <element id="dir-copy" path="$PROJECT_DIR$/frankenstein-examples/resources" />
+        </element>
+        <element id="dir-copy" path="$PROJECT_DIR$/frankenstein-examples/scripts" />
+      </root>
+    </artifact>
+    <artifact name="frankenstein-core:jar">
+      <output-path>$PROJECT_DIR$/out/artifacts/frankenstein_core_jar</output-path>
+      <root id="root">
+        <element id="archive" name="frankenstein-core.jar">
+          <element id="directory" name="META-INF">
+            <element id="file-copy" path="$PROJECT_DIR$/frankenstein-core/src/META-INF/MANIFEST.MF" />
+          </element>
+          <element id="module-output" name="frankenstein-core" />
+        </element>
+        <element id="library" level="project" name="google-gson-2.2" />
+      </root>
+    </artifact>
+    <artifact name="frankenstein-examples:jar">
+      <output-path>$PROJECT_DIR$/out/artifacts/frankenstein_examples_jar</output-path>
+      <root id="root">
+        <element id="archive" name="frankenstein-examples.jar">
+          <element id="directory" name="META-INF">
+            <element id="file-copy" path="$PROJECT_DIR$/frankenstein-core/src/META-INF/MANIFEST.MF" />
+          </element>
+          <element id="module-output" name="frankenstein-examples" />
+          <element id="module-output" name="frankenstein-core" />
+        </element>
+        <element id="library" level="project" name="google-gson-2.2" />
+        <element id="library" level="project" name="commons-cli-1" />
+      </root>
+    </artifact>
+  </component>
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
     <resourceExtensions />
