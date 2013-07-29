@@ -17,11 +17,6 @@ public class FrankensteinBufferedImage implements FrankensteinImage
 
     public FrankensteinBufferedImage(BufferedImage myImage) {
         this.myImage = myImage;
-        // make sure this image is always in ARGB format
-        if (myImage.getType() != BufferedImage.TYPE_INT_ARGB) {
-            ColorConvertOp cco = new ColorConvertOp(myImage.getColorModel().getColorSpace(), java.awt.color.ColorSpace.getInstance(java.awt.color.ColorSpace.CS_sRGB), null);
-            this.myImage = cco.filter(myImage, null);
-        }
     }
 
     @Override
@@ -74,7 +69,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         AffineTransform at = new AffineTransform();
         at.translate(x, y);
         if (angle != 0) {
-            at.rotate(-Math.toRadians(angle), rotationCenterX, rotationCenterY);
+            at.rotate(Math.toRadians(angle), rotationCenterX, rotationCenterY);
         }
         ((Graphics2D)myImage.getGraphics()).drawImage(((FrankensteinBufferedImage)other).myImage, at, null);
     }
@@ -109,6 +104,8 @@ public class FrankensteinBufferedImage implements FrankensteinImage
                         tmpArray[2] = newColor.getBlue();
                         newRaster.setPixel(i, j, tmpArray);
                         continue;
+                    } else {
+                        System.err.println("No mapping for base color " + id);
                     }
                 }
                 // no mapping for this color, write it as it is
