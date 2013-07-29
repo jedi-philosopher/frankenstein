@@ -1,0 +1,4 @@
+syntax: glob
+frankenstein-examples/out/*
+out/*
+frankenstein.iws
