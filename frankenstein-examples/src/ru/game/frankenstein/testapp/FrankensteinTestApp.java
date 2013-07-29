@@ -37,13 +37,19 @@ public class FrankensteinTestApp
         Options options = new Options().addOption("c", "count", true, "Number of monster images to generate. Defaults to 3")
                 .addOption("o", "output", true, "Output dir")
                 .addOption("i", "input", true, "Input json file with part library description")
-                .addOption("s", "seed", true, "Initial seed for random generator. Same seed value will produce same monsters");
+                .addOption("s", "seed", true, "Initial seed for random generator. Same seed value will produce same monsters")
+                .addOption("v", "version", false, "Print version information");
 
         CommandLine commandLine;
         try {
             commandLine = parser.parse(options, args);
         } catch (ParseException e) {
             formatter.printHelp("FrankensteinTestApp", options);
+            return;
+        }
+
+        if (commandLine.hasOption('v')) {
+            System.out.println("Frankenstein monster generation library version " + FrankensteinVersion.value);
             return;
         }
 
@@ -83,7 +89,7 @@ public class FrankensteinTestApp
         {
             Monster m;
             try {
-                params.colorMap = ColorUtils.createColorGradient(CollectionUtils.selectRandomElement(myRandom, supportedColors), 4);
+                params.colorMap = ColorUtils.createDefault4TintMap(CollectionUtils.selectRandomElement(myRandom, supportedColors));
                 m = generator.generateMonster(params);
             } catch (FrankensteinException e) {
                 System.err.println("Failed to generate monster image");

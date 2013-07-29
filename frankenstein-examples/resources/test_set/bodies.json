@@ -224,7 +224,7 @@
             {
                 "x": 9,
                 "y" : 27,
-                "angle" : 120,
+                "angle" : -120,
                 "availableTypes" : [
                     "MONSTER_LIMB"
                 ],
@@ -244,7 +244,7 @@
             {
                 "x": 9,
                 "y" : 49,
-                "angle" : 220,
+                "angle" : -220,
                 "availableTypes" : [
                     "MONSTER_LIMB"
                 ],
@@ -254,7 +254,7 @@
             {
                 "x": 55,
                 "y" : 27,
-                "angle" : 60,
+                "angle" : -60,
                 "availableTypes" : [
                     "MONSTER_LIMB"
                 ],
@@ -272,7 +272,7 @@
             {
                 "x": 55,
                 "y" : 49,
-                "angle" : 320,
+                "angle" : -320,
                 "availableTypes" : [
                     "MONSTER_LIMB"
                 ],
