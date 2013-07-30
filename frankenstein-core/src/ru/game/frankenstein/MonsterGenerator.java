@@ -66,25 +66,57 @@ public class MonsterGenerator
         resultMonsterImage = resultMonsterImage.replaceColors(partsSet.getBaseColors(), params.colorMap);
 
 
-       /* Image img = colorise(canvas.getSubImage((int) cropRect.getX(), (int) cropRect.getY(), (int) cropRect.getWidth(), (int) cropRect.getHeight()), CollectionUtils.selectRandomElement(allowedColors));
-        Image imgWithShadow;
-        try {
-            imgWithShadow = new Image(img.getWidth(), img.getHeight() + 16);
-            imgWithShadow.getGraphics().drawImage(shadowImages, (imgWithShadow.getWidth() - shadowImages.getWidth()) / 2, imgWithShadow.getHeight() - shadowImages.getHeight());
-            imgWithShadow.getGraphics().drawImage(img, 0, 0);
-        } catch (SlickException e) {
-            e.printStackTrace();
-            imgWithShadow = img;
+        FrankensteinImage deadImage = null;
+        if (params.generateDead) {
+            deadImage = createCorpseImage(resultMonsterImage);
         }
-        Image corpseImg = createCorpseImage(img);
-        desc.setImages(imgWithShadow, corpseImg);*/
 
-        return new Monster(resultMonsterImage);
+        resultMonsterImage = addShadow(resultMonsterImage);
+
+        return new Monster(resultMonsterImage, deadImage, null, null);
+    }
+
+    private FrankensteinImage addShadow(FrankensteinImage original)
+    {
+        if (partsSet.getShadowImage() == null) {
+            return original;
+        }
+
+        FrankensteinImage shadowImage = partsSet.getShadowImage();
+
+        FrankensteinImage imgWithShadow = myImageFactory.createImage(original.getWidth(), original.getHeight() + shadowImage.getHeight() / 2);
+        imgWithShadow.draw(shadowImage, (imgWithShadow.getWidth() - shadowImage.getWidth()) / 2, imgWithShadow.getHeight() - shadowImage.getHeight(), 0, 0, 0);
+        return imgWithShadow;
+    }
+
+    /**
+     * Creates image of a dead animal using original image.
+     * If animal width is greater than height - flips it horizontally. Otherwise rotates it 90 degrees.
+     * Adds drops of blood
+     */
+    private FrankensteinImage createCorpseImage(FrankensteinImage source) {
+        if (partsSet.getBloodImages() == null || partsSet.getBloodImages().isEmpty()) {
+            System.err.println("Can not create dead monster image as no blood images specified in monster part library");
+            return null;
+        }
+        FrankensteinImage result;
+        final FrankensteinImage bloodImage = CollectionUtils.selectRandomElement(partsSet.getBloodImages());
+        if (source.getWidth() > source.getHeight()) {
+            result = myImageFactory.createImage(source.getWidth(), source.getHeight() + bloodImage.getHeight() / 3);
+            // draw blood drops at center
+            result.draw(bloodImage, result.getWidth() / 2 - 32, result.getHeight() - bloodImage.getHeight(), 0, 0, 0);
+            result.draw(source.flip(true, true), 0, 0, 0, 0, 0);
+        } else {
+            result = myImageFactory.createImage(source.getHeight(), source.getWidth() + bloodImage.getHeight() / 3);
+            // draw blood drops at center
+            result.draw(bloodImage, result.getWidth() / 2 - 32, result.getHeight() - bloodImage.getHeight(), 0, 0, 0);
+            result.draw(source, (source.getHeight() - source.getWidth()) / 2, -(source.getHeight() - source.getWidth()) / 2, source.getWidth() /2, source.getHeight() / 2, 90);
+        }
+        return result;
     }
 
     /**
      * Takes given monster part and adds it to a canvas
-
      */
     private void addPartToCanvas(MonsterGenerationContext context, Point anchor, AttachmentPoint sourcePoint, AttachmentPoint partPoint, MonsterPart part) throws FrankensteinException {
         int centerX = partPoint.x;

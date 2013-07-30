@@ -52,7 +52,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         if (flipVertical && ! flipHorizontal) {
             tx = AffineTransform.getScaleInstance(1, -1);
             tx.translate(0, -myImage.getHeight(null));
-            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC);
             return new FrankensteinBufferedImage(op.filter(myImage, null));
         }
 
@@ -60,7 +60,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
             // Flip the image horizontally
             tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-myImage.getWidth(null), 0);
-            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC);
             return new FrankensteinBufferedImage(op.filter(myImage, null));
         }
 
@@ -68,7 +68,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         // equivalent to rotating the image 180 degrees
         tx = AffineTransform.getScaleInstance(-1, -1);
         tx.translate(-myImage.getWidth(null), -myImage.getHeight(null));
-        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC);
         return new FrankensteinBufferedImage(op.filter(myImage, null));
     }
 
@@ -76,10 +76,6 @@ public class FrankensteinBufferedImage implements FrankensteinImage
     public void draw(FrankensteinImage other, int x, int y, int rotationCenterX, int rotationCenterY, int angle) {
         if (!(other instanceof FrankensteinBufferedImage)) {
             throw new IllegalArgumentException("other image should be of same class FrankensteinBufferedImage");
-        }
-
-        if (x < 0 || y < 0) {
-            throw new IllegalArgumentException("Both x and y should be > 0");
         }
 
         AffineTransform at = new AffineTransform();

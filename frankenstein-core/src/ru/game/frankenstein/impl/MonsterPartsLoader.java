@@ -24,6 +24,8 @@ package ru.game.frankenstein.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import ru.game.frankenstein.FrankensteinException;
+import ru.game.frankenstein.ImageFactory;
 import ru.game.frankenstein.MonsterPart;
 import ru.game.frankenstein.MonsterPartsSet;
 
@@ -49,17 +51,17 @@ public class MonsterPartsLoader
 
         public final String[] bloodImages;
 
-        public final String[] shadowImages;
+        public final String shadowImage;
 
-        public MonsterPartsSetJSONDescription(Map<String, Integer> defaultColors, String[] partFiles, String[] bloodImages, String[] shadowImages) {
+        public MonsterPartsSetJSONDescription(Map<String, Integer> defaultColors, String[] partFiles, String[] bloodImages, String shadowImage) {
             this.defaultColors = defaultColors;
             this.partFiles = partFiles;
             this.bloodImages = bloodImages;
-            this.shadowImages = shadowImages;
+            this.shadowImage = shadowImage;
         }
     }
 
-    public static MonsterPartsSet loadFromJSON(InputStream json) throws FileNotFoundException {
+    public static MonsterPartsSet loadFromJSON(ImageFactory imageFactory, InputStream json) throws FileNotFoundException {
         Gson gson = new Gson();
         MonsterPartsSetJSONDescription descr = gson.fromJson(new InputStreamReader(json), MonsterPartsSetJSONDescription.class);
 
@@ -81,6 +83,29 @@ public class MonsterPartsLoader
             }
             result.setBaseColors(colorMap);
         }
+
+
+        if (descr.bloodImages != null) {
+            for (String s : descr.bloodImages) {
+                try {
+                    result.addBloodImage(imageFactory.loadImage(s));
+                } catch (FrankensteinException e) {
+                    System.err.println("Failed to load blood image from " + s);
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (descr.shadowImage != null) {
+            try {
+                result.setShadowImage(imageFactory.loadImage(descr.shadowImage));
+            } catch (FrankensteinException e) {
+                System.err.println("Failed to load shadow image from " + descr.shadowImage);
+                e.printStackTrace();
+            }
+        }
+
+
 
         return result;
     }
