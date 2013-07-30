@@ -17,10 +17,8 @@
 package ru.game.frankenstein;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 /**
  * Contains a set of monster parts and some additional settings that they have (such as base colors)
@@ -41,7 +39,7 @@ public class MonsterPartsSet
     /**
      * List of images containing drops of blood, that will be used when creating 'dead' monster sprite
      */
-    private FrankensteinImage[] bloodImages;
+    private List<FrankensteinImage> bloodImages;
 
     /**
      * Image with shadow (a simple black figure with opacity) that will be drawn below monster
@@ -53,7 +51,7 @@ public class MonsterPartsSet
         parts = new HashMap<MonsterPartType, Collection<MonsterPart>>();
     }
 
-    public MonsterPartsSet(Map<Color, Integer> baseColors, Map<MonsterPartType, Collection<MonsterPart>> parts, FrankensteinImage[] bloodImages, FrankensteinImage shadowImage) {
+    public MonsterPartsSet(Map<Color, Integer> baseColors, Map<MonsterPartType, Collection<MonsterPart>> parts, List<FrankensteinImage> bloodImages, FrankensteinImage shadowImage) {
         this.baseColors = baseColors;
         this.parts = parts;
         this.bloodImages = bloodImages;
@@ -68,7 +66,7 @@ public class MonsterPartsSet
         return parts;
     }
 
-    public FrankensteinImage[] getBloodImages() {
+    public List<FrankensteinImage> getBloodImages() {
         return bloodImages;
     }
 
@@ -90,5 +88,16 @@ public class MonsterPartsSet
 
     public void setBaseColors(Map<Color, Integer> baseColors) {
         this.baseColors = baseColors;
+    }
+
+    public void addBloodImage(FrankensteinImage bloodImage) {
+        if (bloodImages == null) {
+            bloodImages = new LinkedList<FrankensteinImage>();
+        }
+        bloodImages.add(bloodImage);
+    }
+
+    public void setShadowImage(FrankensteinImage shadowImage) {
+        this.shadowImage = shadowImage;
     }
 }

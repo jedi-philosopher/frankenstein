@@ -54,7 +54,8 @@ public class FrankensteinTestApp
                 .addOption("o", "output", true, "Output dir")
                 .addOption("i", "input", true, "Input json file with part library description")
                 .addOption("s", "seed", true, "Initial seed for random generator. Same seed value will produce same monsters")
-                .addOption("v", "version", false, "Print version information");
+                .addOption("v", "version", false, "Print version information")
+                .addOption("d", "generate-dead", false, "Generate additional dead monster images");
 
         CommandLine commandLine;
         try {
@@ -79,16 +80,18 @@ public class FrankensteinTestApp
         String outputDirPath = commandLine.getOptionValue('o');
         int count = Integer.parseInt(commandLine.getOptionValue('c', "3"));
 
+        final BufferedImageFactory imageFactory = new BufferedImageFactory();
         MonsterPartsSet partsSet;
         try {
-            partsSet = MonsterPartsLoader.loadFromJSON(new FileInputStream(inputLibrary));
+            partsSet = MonsterPartsLoader.loadFromJSON(imageFactory, new FileInputStream(inputLibrary));
         } catch (FileNotFoundException e) {
             System.err.println("Failed to load monster parts collection");
             e.printStackTrace();
             return;
         }
 
-        MonsterGenerator generator = new MonsterGenerator(new BufferedImageFactory(), partsSet);
+
+        MonsterGenerator generator = new MonsterGenerator(imageFactory, partsSet);
 
         File outputDir = new File(outputDirPath);
         if (!outputDir.exists()) {
@@ -100,7 +103,7 @@ public class FrankensteinTestApp
             }
         }
         Random myRandom = commandLine.hasOption('s') ? new Random(Integer.parseInt(commandLine.getOptionValue('s'))) : new Random();
-        MonsterGenerationParams params = new MonsterGenerationParams(false, false, null, myRandom);
+        MonsterGenerationParams params = new MonsterGenerationParams(commandLine.hasOption('d'), false, null, myRandom);
         for (int i = 0; i < count; ++i)
         {
             Monster m;
@@ -115,6 +118,9 @@ public class FrankensteinTestApp
             final File outFile = new File(outputDir, i + ".png");
             try {
                 ImageIO.write((((FrankensteinBufferedImage)m.monsterImage).getImpl()), "png", outFile);
+                if (m.deadImage != null) {
+                    ImageIO.write((((FrankensteinBufferedImage)m.deadImage).getImpl()), "png", new File(outputDir, i + "_dead.png"));
+                }
                 System.out.println("Generated " + (i + 1) + " out of " + count);
             } catch (IOException e) {
                 System.err.println("Failed to write output file " + outFile.getPath());
