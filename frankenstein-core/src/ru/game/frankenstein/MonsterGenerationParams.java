@@ -17,10 +17,7 @@
 package ru.game.frankenstein;
 
 import java.awt.*;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Params for monster generation
@@ -63,6 +60,13 @@ public class MonsterGenerationParams
     public MonsterGenerationParams(boolean generateDead, boolean generateText, Set<String> tags) {
         this(generateDead, generateText, tags, new Random());
     }
+
+    public MonsterGenerationParams(boolean generateDead, boolean generateText, String... tags) {
+        this(generateDead, generateText, null, new Random());
+        this.tags = new HashSet<String>();
+        Collections.addAll(this.tags, tags);
+    }
+
 
     public MonsterGenerationParams(boolean generateDead, boolean generateText, Set<String> tags, Random random) {
         this(generateDead, generateText, tags, random, null);

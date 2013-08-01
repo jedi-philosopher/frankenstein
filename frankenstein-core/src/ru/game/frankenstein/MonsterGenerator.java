@@ -48,7 +48,7 @@ public class MonsterGenerator
 
     public Monster generateMonster(MonsterGenerationParams params) throws FrankensteinException
     {
-        MonsterGenerationContext context = new MonsterGenerationContext(myImageFactory, params);
+        MonsterGenerationContext context = new MonsterGenerationContext(partsSet, myImageFactory, params);
 
         // first select main body
         MonsterPart part = CollectionUtils.selectRandomElement(params.random, partsSet.getParts().get(MonsterPartType.MONSTER_BODY));
