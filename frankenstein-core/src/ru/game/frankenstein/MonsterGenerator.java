@@ -209,7 +209,7 @@ public class MonsterGenerator
                 context.addBody();
             }
             addPartToCanvas(context, root, ap, partPoint, newPart);
-            processPart(context, new Point(ap.x, ap.y), partPoint, newPart);
+            processPart(context, new Point(root.x + ap.x, root.y + ap.y), partPoint, newPart);
         }
     }
 }
