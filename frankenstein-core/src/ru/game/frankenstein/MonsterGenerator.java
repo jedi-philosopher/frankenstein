@@ -41,6 +41,8 @@ public class MonsterGenerator
 
     private MonsterPartsSet partsSet;
 
+    private static final int RETRY_COUNT = 5;
+
     public MonsterGenerator(ImageFactory myImageFactory, MonsterPartsSet partsSet) {
         this.myImageFactory = myImageFactory;
         this.partsSet = partsSet;
@@ -58,7 +60,7 @@ public class MonsterGenerator
 
         context.getCropRect().setCoordinates(centerX, centerY, part.getImage(myImageFactory).getWidth(), part.getImage(myImageFactory).getHeight());
         // now select limbs and other parts
-        processPart(context, new Point(centerX, centerY), part);
+        processPart(context, new Point(centerX, centerY), null, part);
 
 
         FrankensteinImage resultMonsterImage = context.getCroppedImage();
@@ -160,10 +162,15 @@ public class MonsterGenerator
         return CollectionUtils.selectRandomElement(context.getParams().random, partsSet.getParts().get(type));
     }
 
-    private void processPart(MonsterGenerationContext context, Point root, MonsterPart part) throws FrankensteinException {
+    private void processPart(MonsterGenerationContext context, Point root, AttachmentPoint apForRoot,  MonsterPart part) throws FrankensteinException {
         for (AttachmentPoint ap : part.attachmentPoints) {
+            if (ap == apForRoot) {
+                // this is attachment point that leads back to our parent limb, do not process it
+                continue;
+            }
             MonsterPart newPart;
-            AttachmentPoint partPoint;
+            AttachmentPoint partPoint = null;
+            int retries = 0;
             do {
                 if (ap.groupId == null) {
                     newPart = selectRandomPartForPoint(context, ap);
@@ -190,12 +197,19 @@ public class MonsterGenerator
                 }
                 partPoint = CollectionUtils.selectRandomElement(context.getParams().random, newPartPoints);
                 break;
-            } while (true);
+            } while (retries ++ < RETRY_COUNT);
+
+            if (partPoint == null) {
+                //TODO: look better, instead of random
+                System.err.println("Failed to find suitable part for attachment point");
+                continue;
+            }
 
             if (newPart.type == MonsterPartType.MONSTER_BODY) {
                 context.addBody();
             }
             addPartToCanvas(context, root, ap, partPoint, newPart);
+            processPart(context, new Point(ap.x, ap.y), partPoint, newPart);
         }
     }
 }
