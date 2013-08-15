@@ -52,7 +52,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         if (flipVertical && ! flipHorizontal) {
             tx = AffineTransform.getScaleInstance(1, -1);
             tx.translate(0, -myImage.getHeight(null));
-            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC);
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
             return new FrankensteinBufferedImage(op.filter(myImage, null));
         }
 
@@ -60,7 +60,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
             // Flip the image horizontally
             tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-myImage.getWidth(null), 0);
-            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC);
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
             return new FrankensteinBufferedImage(op.filter(myImage, null));
         }
 
@@ -68,7 +68,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         // equivalent to rotating the image 180 degrees
         tx = AffineTransform.getScaleInstance(-1, -1);
         tx.translate(-myImage.getWidth(null), -myImage.getHeight(null));
-        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC);
+        op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         return new FrankensteinBufferedImage(op.filter(myImage, null));
     }
 

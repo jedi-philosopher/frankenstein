@@ -60,7 +60,7 @@ public class MonsterGenerator
 
         context.getCropRect().setCoordinates(centerX, centerY, part.getImage(myImageFactory).getWidth(), part.getImage(myImageFactory).getHeight());
         // now select limbs and other parts
-        processPart(context, new Point(centerX, centerY), null, part);
+        processPart(context, new Point(centerX, centerY), 0, null, part);
 
 
         FrankensteinImage resultMonsterImage = context.getCroppedImage();
@@ -120,7 +120,7 @@ public class MonsterGenerator
     /**
      * Takes given monster part and adds it to a canvas
      */
-    private void addPartToCanvas(MonsterGenerationContext context, Point anchor, AttachmentPoint sourcePoint, AttachmentPoint partPoint, MonsterPart part) throws FrankensteinException {
+    private void addPartToCanvas(MonsterGenerationContext context, Point anchor, int sourceAngle, AttachmentPoint sourcePoint, AttachmentPoint partPoint, MonsterPart part) throws FrankensteinException {
         int centerX = partPoint.x;
         int centerY = partPoint.y;
 
@@ -135,12 +135,15 @@ public class MonsterGenerator
             image = part.getImage(myImageFactory).flip(sourcePoint.flipHorizontal, sourcePoint.flipVertical);
         }
 
-        int x = anchor.x + sourcePoint.x - centerX;
-        int y = anchor.y + sourcePoint.y - centerY;
+        int vectorX = sourcePoint.x - centerX;
+        int vectorY = sourcePoint.y - centerY;
 
-        context.getCanvas().draw(image, x, y, centerX, centerY, sourcePoint.angle);
+        int x = anchor.x + (int) (vectorX * Math.cos(Math.toRadians(sourceAngle)) - vectorY * Math.sin(Math.toRadians(sourceAngle)));
+        int y = anchor.y + (int) (vectorX * Math.sin(Math.toRadians(sourceAngle)) + vectorY * Math.cos(Math.toRadians(sourceAngle)));
 
-        Rectangle AABB = GeometryUtils.getRotatedRectangleAABB(x + centerX, y + centerY, x, y, x + image.getWidth(), y + image.getHeight(), (float) Math.toRadians(sourcePoint.angle));
+        context.getCanvas().draw(image, x, y, centerX, centerY, sourcePoint.angle + sourceAngle);
+
+        Rectangle AABB = GeometryUtils.getRotatedRectangleAABB(x + centerX, y + centerY, x, y, x + image.getWidth(), y + image.getHeight(), (float) Math.toRadians(sourcePoint.angle + sourceAngle));
 
         int cropX = Math.min(context.getCropRect().getX(), AABB.getX());
         int cropY = Math.min(context.getCropRect().getY(), AABB.getY());
@@ -162,7 +165,7 @@ public class MonsterGenerator
         return CollectionUtils.selectRandomElement(context.getParams().random, partsSet.getParts().get(type));
     }
 
-    private void processPart(MonsterGenerationContext context, Point root, AttachmentPoint apForRoot,  MonsterPart part) throws FrankensteinException {
+    private void processPart(MonsterGenerationContext context, Point root, int angle, AttachmentPoint apForRoot,  MonsterPart part) throws FrankensteinException {
         for (AttachmentPoint ap : part.attachmentPoints) {
             if (ap == apForRoot) {
                 // this is attachment point that leads back to our parent limb, do not process it
@@ -208,8 +211,8 @@ public class MonsterGenerator
             if (newPart.type == MonsterPartType.MONSTER_BODY) {
                 context.addBody();
             }
-            addPartToCanvas(context, root, ap, partPoint, newPart);
-            processPart(context, new Point(root.x + ap.x, root.y + ap.y), partPoint, newPart);
+            addPartToCanvas(context, root, angle, ap, partPoint, newPart);
+            processPart(context, new Point((int) (root.x + (ap.x - partPoint.x) * Math.cos(Math.toRadians(angle)) - (ap.y - partPoint.y) * Math.sin(Math.toRadians(angle))), (int) (root.y + (ap.x - partPoint.x) * Math.sin(Math.toRadians(angle)) + (ap.y - partPoint.y) * Math.cos(Math.toRadians(angle)))), angle + ap.angle, partPoint, newPart);
         }
     }
 }
