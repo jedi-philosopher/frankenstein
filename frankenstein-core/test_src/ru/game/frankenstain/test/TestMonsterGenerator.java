@@ -80,4 +80,40 @@ public class TestMonsterGenerator
         Assert.assertEquals(Color.red.getRGB(), resultImage.getRGB(8, 8));
     }
 
+    @Test
+    public void testGenerateLongLimbWithDecoration() throws FrankensteinException, IOException {
+        BufferedImageFactory imageFactory = new BufferedImageFactory();
+        TestImageFactory testImageFactory = new TestImageFactory(imageFactory);
+
+        MonsterPartsSet set = new MonsterPartsSet();
+        set.addParts(new MonsterPart(MonsterPartType.MONSTER_BODY, new AttachmentPoint[]{new AttachmentPoint(2, 8, 180, new MonsterPartType[]{MonsterPartType.MONSTER_LIMB})}, "body", null, null)
+                ,new MonsterPart(MonsterPartType.MONSTER_LIMB, new AttachmentPoint[]{
+                new AttachmentPoint(1, 4, 0, new MonsterPartType[]{MonsterPartType.MONSTER_BODY})
+                , new AttachmentPoint(31, 4, 0, new MonsterPartType[]{MonsterPartType.MONSTER_DECORATION})
+        }, "limb", null, null)
+                ,new MonsterPart(MonsterPartType.MONSTER_DECORATION, new AttachmentPoint[]{new AttachmentPoint(8, 8, 0, new MonsterPartType[]{MonsterPartType.MONSTER_LIMB})}, "decor", null, null));
+
+
+        BufferedImage bodyImage = createBlankImageWithBorder(64, 64);
+        bodyImage.setRGB(2,8, Color.green.getRGB());
+        BufferedImage limbImage = createBlankImageWithBorder(32, 8);
+        limbImage.setRGB(1, 4, Color.blue.getRGB());
+        BufferedImage decorImage = createBlankImageWithBorder(16, 16);
+        decorImage.setRGB(8, 8, Color.RED.getRGB());
+
+        testImageFactory.addImage("body", new FrankensteinBufferedImage(bodyImage));
+        testImageFactory.addImage("limb", new FrankensteinBufferedImage(limbImage));
+        testImageFactory.addImage("decor", new FrankensteinBufferedImage(decorImage));
+
+        MonsterGenerator generator = new MonsterGenerator(testImageFactory, set);
+
+        Monster m = generator.generateMonster(new MonsterGenerationParams(false, false, null));
+
+        BufferedImage resultImage = ((FrankensteinBufferedImage)m.monsterImage).getImpl();
+
+        ImageIO.write(resultImage, "png", new File("out/test2.png"));
+
+        Assert.assertEquals(Color.red.getRGB(), resultImage.getRGB(8, 8));
+    }
+
 }
