@@ -135,11 +135,14 @@ public class MonsterGenerator
             image = part.getImage(myImageFactory).flip(sourcePoint.flipHorizontal, sourcePoint.flipVertical);
         }
 
-        int vectorX = sourcePoint.x - centerX;
-        int vectorY = sourcePoint.y - centerY;
+        int vectorX = sourcePoint.x;
+        int vectorY = sourcePoint.y;
 
-        int x = anchor.x + (int) (vectorX * Math.cos(Math.toRadians(sourceAngle)) - vectorY * Math.sin(Math.toRadians(sourceAngle)));
-        int y = anchor.y + (int) (vectorX * Math.sin(Math.toRadians(sourceAngle)) + vectorY * Math.cos(Math.toRadians(sourceAngle)));
+        int vectorXRotated = (int) Math.round(vectorX * Math.cos(Math.toRadians(sourceAngle)) - vectorY * Math.sin(Math.toRadians(sourceAngle)))  - centerX;
+        int vectorYRotated = (int) Math.round(vectorX * Math.sin(Math.toRadians(sourceAngle)) + vectorY * Math.cos(Math.toRadians(sourceAngle))) - centerY;
+
+        int x = anchor.x + vectorXRotated;
+        int y = anchor.y + vectorYRotated;
 
         context.getCanvas().draw(image, x, y, centerX, centerY, sourcePoint.angle + sourceAngle);
 
@@ -212,7 +215,15 @@ public class MonsterGenerator
                 context.addBody();
             }
             addPartToCanvas(context, root, angle, ap, partPoint, newPart);
-            processPart(context, new Point((int) (root.x + (ap.x - partPoint.x) * Math.cos(Math.toRadians(angle)) - (ap.y - partPoint.y) * Math.sin(Math.toRadians(angle))), (int) (root.y + (ap.x - partPoint.x) * Math.sin(Math.toRadians(angle)) + (ap.y - partPoint.y) * Math.cos(Math.toRadians(angle)))), angle + ap.angle, partPoint, newPart);
+
+            Point vectorToAttachPoint = new Point(ap.x, ap.y);
+            Point oldVectorToRootInLimb = new Point(-partPoint.x, -partPoint.y);
+            Point newVectorToRoot = new Point((int)Math.round(oldVectorToRootInLimb.x * Math.cos(Math.toRadians(angle + ap.angle)) - oldVectorToRootInLimb.y * Math.sin(Math.toRadians(angle + ap.angle)))
+                    , (int) Math.round(oldVectorToRootInLimb.x * Math.sin(Math.toRadians(angle + ap.angle)) + oldVectorToRootInLimb.y * Math.cos(Math.toRadians(angle + ap.angle)))
+            );
+            Point newRoot = new Point(root.x + vectorToAttachPoint.x + newVectorToRoot.x, root.y + vectorToAttachPoint.y + newVectorToRoot.y);
+
+            processPart(context, newRoot, angle + ap.angle, partPoint, newPart);
         }
     }
 }
