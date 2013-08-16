@@ -1,10 +1,11 @@
 Version 0.1.0
-IN PROGRESS...
+16.08.2013
 
 First version with all functionality from Aurora project ported.
 + Dead monster image generation
 * Reading all fields from json now
 + Filtering parts by tags
+* A lot of fixes with monster limb positioning
 
 ===================================
 Version 0.0.1
