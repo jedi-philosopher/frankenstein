@@ -88,6 +88,7 @@ public class MonsterGenerator
 
         FrankensteinImage imgWithShadow = myImageFactory.createImage(original.getWidth(), original.getHeight() + shadowImage.getHeight() / 2);
         imgWithShadow.draw(shadowImage, (imgWithShadow.getWidth() - shadowImage.getWidth()) / 2, imgWithShadow.getHeight() - shadowImage.getHeight(), 0, 0, 0);
+        imgWithShadow.draw(original, 0, 0, 0, 0, 0);
         return imgWithShadow;
     }
 
