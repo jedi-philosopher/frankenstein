@@ -67,6 +67,9 @@ public class MonsterGenerator
 
         resultMonsterImage = resultMonsterImage.replaceColors(partsSet.getBaseColors(), params.colorMap);
 
+        if (params.targetSize != null) {
+            resultMonsterImage = resultMonsterImage.resize(params.targetSize, params.constrainProportions);
+        }
 
         FrankensteinImage deadImage = null;
         if (params.generateDead) {

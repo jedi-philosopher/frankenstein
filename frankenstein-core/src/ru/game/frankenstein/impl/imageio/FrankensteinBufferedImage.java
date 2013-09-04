@@ -18,6 +18,7 @@ package ru.game.frankenstein.impl.imageio;
 
 import ru.game.frankenstein.FrankensteinImage;
 import ru.game.frankenstein.util.Rectangle;
+import ru.game.frankenstein.util.Size;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -126,6 +127,23 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         }
 
         return new FrankensteinBufferedImage(newImage);
+    }
+
+    @Override
+    public FrankensteinImage resize(Size targetSize, boolean constrainProportions) {
+        AffineTransform transform = new AffineTransform();
+        double scaleX;
+        double scaleY;
+        if (constrainProportions) {
+            scaleX = scaleY = Math.min((double)targetSize.width / getWidth(), (double)targetSize.height / getHeight());
+        } else {
+            scaleX = (double)targetSize.width / getWidth();
+            scaleY = (double)targetSize.height / getHeight();
+        }
+        transform.scale(scaleX, scaleY);
+        AffineTransformOp scaleOp = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+
+        return new FrankensteinBufferedImage(scaleOp.filter(myImage, null));
     }
 
     public BufferedImage getImpl() {
