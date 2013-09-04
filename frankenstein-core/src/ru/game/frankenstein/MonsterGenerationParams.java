@@ -16,6 +16,8 @@
 
 package ru.game.frankenstein;
 
+import ru.game.frankenstein.util.Size;
+
 import java.awt.*;
 import java.util.*;
 
@@ -52,6 +54,17 @@ public class MonsterGenerationParams
      * colors from this map with matching id.
      */
     public Map<Integer, Color> colorMap;
+
+    /**
+     * If set, result monster image will be resized to this size
+     */
+    public Size targetSize = null;
+
+    /**
+     * If targetSize is not-null, this value defines resizing approach: either constrain proportions and fit monster image into rectangle of
+     * given size (it can still be smaller on one of the sides), or to stretch generated sprite exactly to targetSize
+     */
+    public boolean constrainProportions = true;
 
     public MonsterGenerationParams() {
         this(true, false, Collections.<String>emptySet());

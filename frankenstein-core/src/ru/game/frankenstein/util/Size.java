@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-/**
- * Created with IntelliJ IDEA.
- * User: Egor.Smirnov
- * Date: 29.07.13
- * Time: 12:41
- */
-
-package ru.game.frankenstein;
+package ru.game.frankenstein.util;
 
 /**
- * Version of a library
+ * Simple size
  */
-public final class FrankensteinVersion
+public class Size
 {
-    public static final String value = "0.1.1";
+    public int width;
+
+    public int height;
+
+    public Size(int height, int width) {
+        this.height = height;
+        this.width = width;
+    }
 }
