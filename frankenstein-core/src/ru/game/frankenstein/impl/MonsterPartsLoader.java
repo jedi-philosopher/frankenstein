@@ -51,13 +51,13 @@ public class MonsterPartsLoader
 
         public final String[] bloodImages;
 
-        public final String shadowImage;
+        public final String[] shadowImages;
 
-        public MonsterPartsSetJSONDescription(Map<String, Integer> defaultColors, String[] partFiles, String[] bloodImages, String shadowImage) {
+        public MonsterPartsSetJSONDescription(Map<String, Integer> defaultColors, String[] partFiles, String[] bloodImages, String[] shadowImages) {
             this.defaultColors = defaultColors;
             this.partFiles = partFiles;
             this.bloodImages = bloodImages;
-            this.shadowImage = shadowImage;
+            this.shadowImages = shadowImages;
         }
     }
 
@@ -96,12 +96,14 @@ public class MonsterPartsLoader
             }
         }
 
-        if (descr.shadowImage != null) {
-            try {
-                result.setShadowImage(imageFactory.loadImage(descr.shadowImage));
-            } catch (FrankensteinException e) {
-                System.err.println("Failed to load shadow image from " + descr.shadowImage);
-                e.printStackTrace();
+        if (descr.shadowImages != null) {
+            for (String s : descr.shadowImages) {
+                try {
+                    result.addShadowImage(imageFactory.loadImage(s));
+                } catch (FrankensteinException e) {
+                    System.err.println("Failed to load shadow image from " + s);
+                    e.printStackTrace();
+                }
             }
         }
 

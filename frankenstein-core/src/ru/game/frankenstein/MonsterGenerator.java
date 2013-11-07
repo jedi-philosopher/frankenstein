@@ -73,26 +73,41 @@ public class MonsterGenerator
 
         FrankensteinImage deadImage = null;
         if (params.generateDead) {
-            deadImage = createCorpseImage(resultMonsterImage);
+            deadImage = createCorpseImage(params, resultMonsterImage);
         }
 
-        resultMonsterImage = addShadow(resultMonsterImage);
+        resultMonsterImage = addShadow(params.shadowType, resultMonsterImage);
 
         return new Monster(resultMonsterImage, deadImage, null, null);
     }
 
-    private FrankensteinImage addShadow(FrankensteinImage original)
+    private FrankensteinImage addShadow(MonsterGenerationParams.ShadowType type, FrankensteinImage original)
     {
-        if (partsSet.getShadowImage() == null) {
+        if (type == null || type == MonsterGenerationParams.ShadowType.SHADOW_NONE) {
             return original;
         }
 
-        FrankensteinImage shadowImage = partsSet.getShadowImage();
+        if (type == MonsterGenerationParams.ShadowType.SHADOW_SPRITE) {
+            FrankensteinImage shadowImage = CollectionUtils.selectRandomElement(partsSet.getShadowImages());
+            if (shadowImage == null) {
+                return original;
+            }
 
-        FrankensteinImage imgWithShadow = myImageFactory.createImage(original.getWidth(), original.getHeight() + shadowImage.getHeight() / 2);
-        imgWithShadow.draw(shadowImage, (imgWithShadow.getWidth() - shadowImage.getWidth()) / 2, imgWithShadow.getHeight() - shadowImage.getHeight(), 0, 0, 0);
-        imgWithShadow.draw(original, 0, 0, 0, 0, 0);
-        return imgWithShadow;
+            FrankensteinImage imgWithShadow = myImageFactory.createImage(original.getWidth(), original.getHeight() + shadowImage.getHeight() / 2);
+            imgWithShadow.draw(shadowImage, (imgWithShadow.getWidth() - shadowImage.getWidth()) / 2, imgWithShadow.getHeight() - shadowImage.getHeight(), 0, 0, 0);
+            imgWithShadow.draw(original, 0, 0, 0, 0, 0);
+            return imgWithShadow;
+        }
+
+        if (type == MonsterGenerationParams.ShadowType.SHADOW_SKEW) {
+            FrankensteinImage shadowImage = original.getShadow();
+            FrankensteinImage canvas = myImageFactory.createImage(Math.max(original.getWidth(), shadowImage.getWidth()), Math.max(original.getHeight(), shadowImage.getHeight()));
+            canvas.draw(shadowImage, 0, canvas.getHeight() - shadowImage.getHeight(), 0, 0, 0);
+            canvas.draw(original, 0, 0, 0, 0, 0);
+            return canvas;
+        }
+
+        throw new IllegalArgumentException("Unsupported shadow type " + type);
     }
 
     /**
@@ -100,7 +115,7 @@ public class MonsterGenerator
      * If animal width is greater than height - flips it horizontally. Otherwise rotates it 90 degrees.
      * Adds drops of blood
      */
-    private FrankensteinImage createCorpseImage(FrankensteinImage source) {
+    private FrankensteinImage createCorpseImage(MonsterGenerationParams params, FrankensteinImage source) {
         if (partsSet.getBloodImages() == null || partsSet.getBloodImages().isEmpty()) {
             System.err.println("Can not create dead monster image as no blood images specified in monster part library");
             return null;
@@ -118,7 +133,7 @@ public class MonsterGenerator
             result.draw(bloodImage, result.getWidth() / 2 - 32, result.getHeight() - bloodImage.getHeight(), 0, 0, 0);
             result.draw(source, (source.getHeight() - source.getWidth()) / 2, -(source.getHeight() - source.getWidth()) / 2, source.getWidth() /2, source.getHeight() / 2, 90);
         }
-        return result;
+        return addShadow(params.shadowType, result);
     }
 
     /**

@@ -44,18 +44,18 @@ public class MonsterPartsSet
     /**
      * Image with shadow (a simple black figure with opacity) that will be drawn below monster
      */
-    private FrankensteinImage shadowImage;
+    private List<FrankensteinImage> shadowImages;
 
     public MonsterPartsSet() {
         baseColors = new HashMap<Color, Integer>();
         parts = new HashMap<MonsterPartType, Collection<MonsterPart>>();
     }
 
-    public MonsterPartsSet(Map<Color, Integer> baseColors, Map<MonsterPartType, Collection<MonsterPart>> parts, List<FrankensteinImage> bloodImages, FrankensteinImage shadowImage) {
+    public MonsterPartsSet(Map<Color, Integer> baseColors, Map<MonsterPartType, Collection<MonsterPart>> parts, List<FrankensteinImage> bloodImages, List<FrankensteinImage> shadowImages) {
         this.baseColors = baseColors;
         this.parts = parts;
         this.bloodImages = bloodImages;
-        this.shadowImage = shadowImage;
+        this.shadowImages = shadowImages;
     }
 
     public Map<Color, Integer> getBaseColors() {
@@ -70,8 +70,8 @@ public class MonsterPartsSet
         return bloodImages;
     }
 
-    public FrankensteinImage getShadowImage() {
-        return shadowImage;
+    public List<FrankensteinImage> getShadowImages() {
+        return shadowImages;
     }
 
     public void addParts(MonsterPart... newParts)
@@ -97,7 +97,14 @@ public class MonsterPartsSet
         bloodImages.add(bloodImage);
     }
 
-    public void setShadowImage(FrankensteinImage shadowImage) {
-        this.shadowImage = shadowImage;
+    public void setShadowImages(List<FrankensteinImage> shadowImages) {
+        this.shadowImages = shadowImages;
+    }
+
+    public void addShadowImage(FrankensteinImage shadowImage) {
+        if (shadowImages == null) {
+            shadowImages = new LinkedList<FrankensteinImage>();
+        }
+        shadowImages.add(shadowImage);
     }
 }

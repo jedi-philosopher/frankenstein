@@ -61,4 +61,10 @@ public interface FrankensteinImage
     public FrankensteinImage replaceColors(Map<Color, Integer> sourceColors, Map<Integer, Color> newColors);
 
     public FrankensteinImage resize(Size targetSize, boolean constrainProportions);
+
+    /**
+     * Create shadow image.
+     * It is image mask (that has black pixels for each non-transparent pixel of original image) that is additionally skewed.
+     */
+    public FrankensteinImage getShadow();
 }
