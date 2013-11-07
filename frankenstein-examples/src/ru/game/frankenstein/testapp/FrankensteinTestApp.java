@@ -104,6 +104,7 @@ public class FrankensteinTestApp
         }
         Random myRandom = commandLine.hasOption('s') ? new Random(Integer.parseInt(commandLine.getOptionValue('s'))) : new Random();
         MonsterGenerationParams params = new MonsterGenerationParams(commandLine.hasOption('d'), false, null, myRandom);
+        params.shadowType = MonsterGenerationParams.ShadowType.SHADOW_SKEW;
         for (int i = 0; i < count; ++i)
         {
             Monster m;

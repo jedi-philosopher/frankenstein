@@ -60,6 +60,24 @@ public class MonsterGenerationParams
      */
     public Size targetSize = null;
 
+    public static enum ShadowType
+    {
+        /**
+         * No shadow will be added to generated image
+         */
+        SHADOW_NONE,
+        /**
+         * Shadow will be a sprite taken from list defined in part set
+         */
+        SHADOW_SPRITE,
+        /**
+         * Shadow will be generated using monster image by applying skew transform
+         */
+        SHADOW_SKEW
+    }
+
+    public ShadowType shadowType = ShadowType.SHADOW_NONE;
+
     /**
      * If targetSize is not-null, this value defines resizing approach: either constrain proportions and fit monster image into rectangle of
      * given size (it can still be smaller on one of the sides), or to stretch generated sprite exactly to targetSize

@@ -146,6 +146,31 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         return new FrankensteinBufferedImage(scaleOp.filter(myImage, null));
     }
 
+    @Override
+    public FrankensteinImage getShadow() {
+        final int width = myImage.getWidth();
+        final int height = myImage.getHeight();
+
+        BufferedImage bi = new BufferedImage(width, height, myImage.getType());
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+
+                int argb = myImage.getRGB(x, y);
+                if (((argb >> 24) & 0x000000ff) != 0) {
+                    bi.setRGB(x, y, 0xa0000000);
+                }
+            }
+        }
+
+
+        AffineTransform transform = new AffineTransform();
+        transform.shear(-0.5, 0);
+        transform.translate(0.25 * myImage.getWidth(), 0);
+        transform.scale(1.0, 0.5);
+        AffineTransformOp shearOp = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+        return new FrankensteinBufferedImage(shearOp.filter(bi, null));
+    }
+
     public BufferedImage getImpl() {
         return myImage;
     }
