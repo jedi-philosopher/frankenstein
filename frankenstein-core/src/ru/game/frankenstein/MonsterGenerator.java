@@ -53,7 +53,7 @@ public class MonsterGenerator
         MonsterGenerationContext context = new MonsterGenerationContext(partsSet, myImageFactory, params);
 
         // first select main body
-        MonsterPart part = CollectionUtils.selectRandomElement(params.random, partsSet.getParts().get(MonsterPartType.MONSTER_BODY));
+        MonsterPart part = CollectionUtils.selectRandomElement(params.random, context.getSuitableParts().get(MonsterPartType.MONSTER_BODY));
         final int centerX = MonsterGenerationContext.CANVAS_WIDTH / 2;
         final int centerY = MonsterGenerationContext.CANVAS_HEIGHT / 2;
         context.getCanvas().draw(part.getImage(myImageFactory), centerX, centerY, 0, 0, 0);
@@ -169,7 +169,7 @@ public class MonsterGenerator
             }
         }
 
-        return CollectionUtils.selectRandomElement(context.getParams().random, partsSet.getParts().get(type));
+        return CollectionUtils.selectRandomElement(context.getParams().random, context.getSuitableParts().get(type));
     }
 
     private void processPart(MonsterGenerationContext context, Point root, int angle, AttachmentPoint apForRoot,  MonsterPart part) throws FrankensteinException {
