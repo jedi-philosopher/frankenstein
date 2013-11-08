@@ -67,4 +67,9 @@ public interface FrankensteinImage
      * It is image mask (that has black pixels for each non-transparent pixel of original image) that is additionally skewed.
      */
     public FrankensteinImage getShadow();
+
+    /**
+     * Create a bounding box for an image and crop using it
+     */
+    public FrankensteinImage cropImage();
 }

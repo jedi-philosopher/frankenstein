@@ -76,7 +76,7 @@ public class MonsterGenerator
             deadImage = createCorpseImage(params, resultMonsterImage);
         }
 
-        resultMonsterImage = addShadow(params.shadowType, resultMonsterImage);
+        resultMonsterImage = addShadow(params.shadowType, resultMonsterImage).cropImage();
 
         return new Monster(resultMonsterImage, deadImage, null, null);
     }
@@ -133,7 +133,7 @@ public class MonsterGenerator
             result.draw(bloodImage, result.getWidth() / 2 - 32, result.getHeight() - bloodImage.getHeight(), 0, 0, 0);
             result.draw(source, (source.getHeight() - source.getWidth()) / 2, -(source.getHeight() - source.getWidth()) / 2, source.getWidth() /2, source.getHeight() / 2, 90);
         }
-        return addShadow(params.shadowType, result);
+        return addShadow(params.shadowType, result).cropImage();
     }
 
     /**

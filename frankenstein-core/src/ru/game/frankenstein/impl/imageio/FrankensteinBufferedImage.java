@@ -155,8 +155,8 @@ public class FrankensteinBufferedImage implements FrankensteinImage
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
 
-                int argb = myImage.getRGB(x, y);
-                if (((argb >> 24) & 0x000000ff) != 0) {
+                final int argb = myImage.getRGB(x, y);
+                if (!isTransparent(argb)) {
                     bi.setRGB(x, y, 0xa0000000);
                 }
             }
@@ -173,5 +173,39 @@ public class FrankensteinBufferedImage implements FrankensteinImage
 
     public BufferedImage getImpl() {
         return myImage;
+    }
+
+    private boolean isTransparent(int argb)
+    {
+        return ((argb >> 24) & 0x000000ff) == 0;
+    }
+
+    @Override
+    public FrankensteinImage cropImage() {
+        int leftX = myImage.getWidth();
+        int rightX = 0;
+
+
+        final int height = myImage.getHeight();
+        final int width = myImage.getWidth();
+        int topY = height;
+        int bottomY = 0;
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                if (!isTransparent(myImage.getRGB(x, y))) {
+                    leftX = Math.min(x, leftX);
+                    rightX = Math.max(x, rightX);
+
+                    topY = Math.min(y, topY);
+                    bottomY = Math.max(y, bottomY);
+                }
+            }
+        }
+
+        if (rightX <= leftX || bottomY <= topY) {
+            return new FrankensteinBufferedImage(new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR));
+        }
+
+        return getSubImage(new Rectangle(leftX, topY, rightX - leftX, bottomY - topY));
     }
 }
