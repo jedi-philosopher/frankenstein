@@ -54,6 +54,11 @@ public interface FrankensteinImage
     public void draw(FrankensteinImage other, int x, int y, int rotationCenterX, int rotationCenterY, int angle);
 
     /**
+     * Rotate image by given angle in degrees
+     */
+    public FrankensteinImage rotate(int angle);
+
+    /**
      * Get a cropped copy of this image
      */
     public FrankensteinImage getSubImage(Rectangle rectangle);
