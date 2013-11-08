@@ -123,17 +123,22 @@ public class MonsterGenerator
         FrankensteinImage result;
         final FrankensteinImage bloodImage = CollectionUtils.selectRandomElement(partsSet.getBloodImages());
         if (source.getWidth() > source.getHeight()) {
-            result = myImageFactory.createImage(source.getWidth(), source.getHeight() + bloodImage.getHeight() / 3);
+            final FrankensteinImage flippedSource = source.flip(true, true);
+            final FrankensteinImage withShadow = addShadow(params.shadowType, flippedSource);
+            result = myImageFactory.createImage(withShadow.getWidth(), withShadow.getHeight() + bloodImage.getHeight() / 3);
             // draw blood drops at center
             result.draw(bloodImage, result.getWidth() / 2 - 32, result.getHeight() - bloodImage.getHeight(), 0, 0, 0);
-            result.draw(source.flip(true, true), 0, 0, 0, 0, 0);
+            result.draw(withShadow, 0, 0, 0, 0, 0);
         } else {
-            result = myImageFactory.createImage(source.getHeight(), source.getWidth() + bloodImage.getHeight() / 3);
             // draw blood drops at center
+
+            final FrankensteinImage rotated = source.rotate(90);
+            final FrankensteinImage withShadow = addShadow(params.shadowType, rotated);
+            result = myImageFactory.createImage(withShadow.getWidth(), withShadow.getHeight() + bloodImage.getHeight() / 3);
             result.draw(bloodImage, result.getWidth() / 2 - 32, result.getHeight() - bloodImage.getHeight(), 0, 0, 0);
-            result.draw(source, (source.getHeight() - source.getWidth()) / 2, -(source.getHeight() - source.getWidth()) / 2, source.getWidth() /2, source.getHeight() / 2, 90);
+            result.draw(withShadow, 0, 0, 0, 0, 0);
         }
-        return addShadow(params.shadowType, result).cropImage();
+        return result.cropImage();
     }
 
     /**

@@ -88,6 +88,21 @@ public class FrankensteinBufferedImage implements FrankensteinImage
     }
 
     @Override
+    public FrankensteinImage rotate(int angle) {
+
+        if (angle != 0) {
+            AffineTransform at = new AffineTransform();
+
+            at.translate((myImage.getHeight() - myImage.getWidth())/ 2, -(myImage.getHeight() - myImage.getWidth()) / 2);
+            at.rotate(Math.toRadians(angle), myImage.getWidth() / 2, myImage.getHeight() / 2);
+            AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            return new FrankensteinBufferedImage(op.filter(myImage, null));
+        } else {
+            return this;
+        }
+    }
+
+    @Override
     public FrankensteinImage getSubImage(Rectangle rectangle) {
         return new FrankensteinBufferedImage(myImage.getSubimage(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight()));
     }
