@@ -20,7 +20,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import ru.game.frankenstein.*;
 import ru.game.frankenstein.impl.MonsterGenerationContext;
-import ru.game.frankenstein.impl.imageio.BufferedImageFactory;
+import ru.game.frankenstein.awt.imageio.BufferedImageFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;

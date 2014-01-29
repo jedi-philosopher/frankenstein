@@ -16,7 +16,6 @@
 
 package ru.game.frankenstein;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class MonsterPartsSet
      * Colors that are used in current part set and that can be replaced when colorizing a monster.
      * Mapping from actual color to ID.
      */
-    private Map<Color, Integer> baseColors;
+    private Map<FrankensteinColor, Integer> baseColors;
 
     /**
      * Parts used in this set
@@ -47,18 +46,18 @@ public class MonsterPartsSet
     private List<FrankensteinImage> shadowImages;
 
     public MonsterPartsSet() {
-        baseColors = new HashMap<Color, Integer>();
+        baseColors = new HashMap<FrankensteinColor, Integer>();
         parts = new HashMap<MonsterPartType, Collection<MonsterPart>>();
     }
 
-    public MonsterPartsSet(Map<Color, Integer> baseColors, Map<MonsterPartType, Collection<MonsterPart>> parts, List<FrankensteinImage> bloodImages, List<FrankensteinImage> shadowImages) {
+    public MonsterPartsSet(Map<FrankensteinColor, Integer> baseColors, Map<MonsterPartType, Collection<MonsterPart>> parts, List<FrankensteinImage> bloodImages, List<FrankensteinImage> shadowImages) {
         this.baseColors = baseColors;
         this.parts = parts;
         this.bloodImages = bloodImages;
         this.shadowImages = shadowImages;
     }
 
-    public Map<Color, Integer> getBaseColors() {
+    public Map<FrankensteinColor, Integer> getBaseColors() {
         return baseColors;
     }
 
@@ -86,7 +85,7 @@ public class MonsterPartsSet
         }
     }
 
-    public void setBaseColors(Map<Color, Integer> baseColors) {
+    public void setBaseColors(Map<FrankensteinColor, Integer> baseColors) {
         this.baseColors = baseColors;
     }
 

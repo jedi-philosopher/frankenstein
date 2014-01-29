@@ -19,8 +19,8 @@ package ru.game.frankenstain.test;
 import junit.framework.Assert;
 import org.junit.Test;
 import ru.game.frankenstein.*;
-import ru.game.frankenstein.impl.imageio.BufferedImageFactory;
-import ru.game.frankenstein.impl.imageio.FrankensteinBufferedImage;
+import ru.game.frankenstein.awt.imageio.BufferedImageFactory;
+import ru.game.frankenstein.awt.imageio.FrankensteinBufferedImage;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -113,7 +113,7 @@ public class TestMonsterGenerator
 
         ImageIO.write(resultImage, "png", new File("out/test2.png"));
 
-        Assert.assertEquals(Color.red.getRGB(), resultImage.getRGB(8, 8));
+        Assert.assertEquals(Color.red.getRGB(), resultImage.getRGB(7, 7));
     }
 
 }

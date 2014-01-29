@@ -1,5 +1,5 @@
 /*
- * Copyright  2013 Egor Smirnov
+ * Copyright  2014 Egor Smirnov
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,13 @@
 
 package ru.game.frankenstein;
 
-import java.io.File;
-import java.io.InputStream;
-
 /**
- * Interface for classes that are responsible for saving and loading images
+ * Interface for a RGB color of implementing library
  */
-public interface ImageFactory
+public interface FrankensteinColor
 {
-    public FrankensteinImage loadImage(String file) throws FrankensteinException;
-
-    public FrankensteinImage loadImage(File file) throws FrankensteinException;
-
-    public FrankensteinImage loadImage(InputStream is) throws FrankensteinException;
-
-    public FrankensteinImage createImage(int width, int height);
-
-    public FrankensteinColor decodeColor(String value);
+    int getR();
+    int getG();
+    int getB();
+    int getAlpha();
 }

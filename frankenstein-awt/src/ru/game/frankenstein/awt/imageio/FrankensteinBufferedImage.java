@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package ru.game.frankenstein.impl.imageio;
+package ru.game.frankenstein.awt.imageio;
 
+import ru.game.frankenstein.FrankensteinColor;
 import ru.game.frankenstein.FrankensteinImage;
 import ru.game.frankenstein.util.Rectangle;
 import ru.game.frankenstein.util.Size;
@@ -108,7 +109,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
     }
 
     @Override
-    public FrankensteinImage replaceColors(Map<Color, Integer> sourceColors, Map<Integer, Color> newColors) {
+    public FrankensteinImage replaceColors(Map<FrankensteinColor, Integer> sourceColors, Map<Integer, FrankensteinColor> newColors) {
         if (sourceColors == null || sourceColors.isEmpty() || newColors == null || newColors.isEmpty()) {
             return this;
         }
@@ -121,15 +122,15 @@ public class FrankensteinBufferedImage implements FrankensteinImage
             for (int j = 0; j < myImage.getHeight(); ++j) {
                 raster.getPixel(i, j, tmpArray);
                 // raster is RGBA even if image is ARGB O_o
-                Color color = new Color(tmpArray[0], tmpArray[1], tmpArray[2]);
+                FrankensteinColor color = new AwtColor(new Color(tmpArray[0], tmpArray[1], tmpArray[2]));
                 Integer id = sourceColors.get(color);
                 if (id != null) {
-                    Color newColor = newColors.get(id);
+                    FrankensteinColor newColor = newColors.get(id);
                     if (newColor != null) {
                         // leave same alpha, replace only color components
-                        tmpArray[0] = newColor.getRed();
-                        tmpArray[1] = newColor.getGreen();
-                        tmpArray[2] = newColor.getBlue();
+                        tmpArray[0] = newColor.getR();
+                        tmpArray[1] = newColor.getG();
+                        tmpArray[2] = newColor.getB();
                         newRaster.setPixel(i, j, tmpArray);
                         continue;
                     } else {
@@ -217,10 +218,10 @@ public class FrankensteinBufferedImage implements FrankensteinImage
             }
         }
 
-        if (rightX <= leftX || bottomY <= topY) {
+        if (rightX <= leftX + 1 || bottomY <= topY + 1) {
             return new FrankensteinBufferedImage(new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR));
         }
 
-        return getSubImage(new Rectangle(leftX, topY, rightX - leftX, bottomY - topY));
+        return getSubImage(new Rectangle(leftX, topY, rightX - leftX + 1, bottomY - topY + 1));
     }
 }

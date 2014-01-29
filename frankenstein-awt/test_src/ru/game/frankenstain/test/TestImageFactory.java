@@ -16,6 +16,7 @@
 
 package ru.game.frankenstain.test;
 
+import ru.game.frankenstein.FrankensteinColor;
 import ru.game.frankenstein.FrankensteinException;
 import ru.game.frankenstein.FrankensteinImage;
 import ru.game.frankenstein.ImageFactory;
@@ -58,5 +59,10 @@ public class TestImageFactory implements ImageFactory
     @Override
     public FrankensteinImage createImage(int width, int height) {
         return impl.createImage(width, height);
+    }
+
+    @Override
+    public FrankensteinColor decodeColor(String value) {
+        return impl.decodeColor(value);
     }
 }

@@ -20,8 +20,10 @@
  * Date: 26.07.13
  * Time: 16:19
  */
-package ru.game.frankenstein.util;
+package ru.game.frankenstein.awt.imageio;
 
+
+import ru.game.frankenstein.FrankensteinColor;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -48,17 +50,17 @@ public class ColorUtils
     /**
      * Creates a default set of a 4 tints of a given base color. Two are darker, one is equal and one is lighter.
      */
-    public static Map<Integer, Color> createDefault4TintMap(Color baseColor)
+    public static Map<Integer, FrankensteinColor> createDefault4TintMap(Color baseColor)
     {
-        Map<Integer, Color> result = new HashMap<Integer, Color>();
+        Map<Integer, FrankensteinColor> result = new HashMap<Integer, FrankensteinColor>();
         final Color newShadowColor = darkenColor(baseColor, 0.8f);
         final Color newDarkShadowColor = darkenColor(baseColor, 0.5f);
         final Color newBrightColor = lightenColor(baseColor);
 
-        result.put(1, newDarkShadowColor);
-        result.put(2, newShadowColor);
-        result.put(3, baseColor);
-        result.put(4, newBrightColor);
+        result.put(1, new AwtColor(newDarkShadowColor));
+        result.put(2, new AwtColor(newShadowColor));
+        result.put(3, new AwtColor(baseColor));
+        result.put(4, new AwtColor(newBrightColor));
 
         return result;
     }

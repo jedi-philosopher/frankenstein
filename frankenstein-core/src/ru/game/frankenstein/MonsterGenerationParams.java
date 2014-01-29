@@ -18,7 +18,6 @@ package ru.game.frankenstein;
 
 import ru.game.frankenstein.util.Size;
 
-import java.awt.*;
 import java.util.*;
 
 /**
@@ -53,7 +52,7 @@ public class MonsterGenerationParams
      * Monster color map. Base colors, used for sprites in monster parts library and described in library specification, will be replaced by
      * colors from this map with matching id.
      */
-    public Map<Integer, Color> colorMap;
+    public Map<Integer, FrankensteinColor> colorMap;
 
     /**
      * If set, result monster image will be resized to this size
@@ -103,7 +102,7 @@ public class MonsterGenerationParams
         this(generateDead, generateText, tags, random, null);
     }
 
-    public MonsterGenerationParams(boolean generateDead, boolean generateText, Set<String> tags, Random random, Map<Integer, Color> colorMap) {
+    public MonsterGenerationParams(boolean generateDead, boolean generateText, Set<String> tags, Random random, Map<Integer, FrankensteinColor> colorMap) {
         this.generateDead = generateDead;
         this.generateText = generateText;
         this.tags = tags;

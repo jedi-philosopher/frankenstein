@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package ru.game.frankenstein.impl.imageio;
+package ru.game.frankenstein.awt.imageio;
 
+import ru.game.frankenstein.FrankensteinColor;
 import ru.game.frankenstein.FrankensteinException;
 import ru.game.frankenstein.FrankensteinImage;
 import ru.game.frankenstein.ImageFactory;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -79,5 +81,10 @@ public class BufferedImageFactory implements ImageFactory
     @Override
     public FrankensteinImage createImage(int width, int height) {
         return new FrankensteinBufferedImage(new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR));
+    }
+
+    @Override
+    public FrankensteinColor decodeColor(String value) {
+        return new AwtColor(Color.decode(value));
     }
 }
