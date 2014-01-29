@@ -1,7 +1,10 @@
 Version 0.1.1
-IN PROGRESS...
+29.01.2014
 
 + Added 'targetSize' parameter to monster generation. If set, resulting images will be scaled to fit into it
++ Added smart shadow generation (shadow now looks just like a monster really casted it)
++ Added scale parameter 
+* All awt-related stuff moved to separate module. Core now does not depend on it, which leads to greater portability
 
 ===================================
 Version 0.1.0
