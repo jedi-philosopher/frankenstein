@@ -2,7 +2,9 @@ package ru.game.frankenstain.test;
 
 import junit.framework.Assert;
 import org.junit.Test;
-import ru.game.frankenstein.impl.imageio.FrankensteinBufferedImage;
+import ru.game.frankenstein.FrankensteinColor;
+import ru.game.frankenstein.awt.imageio.AwtColor;
+import ru.game.frankenstein.awt.imageio.FrankensteinBufferedImage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -82,11 +84,11 @@ public class TestBufferedImage
         bi.setRGB(0, 0, Color.RED.getRGB());
         bi.setRGB(0, 1, Color.GREEN.getRGB());
 
-        Map<Color, Integer> sourceMap = new HashMap<Color, Integer>();
-        sourceMap.put(Color.RED, 1);
+        Map<FrankensteinColor, Integer> sourceMap = new HashMap<FrankensteinColor, Integer>();
+        sourceMap.put(new AwtColor(Color.RED), 1);
 
-        Map<Integer, Color> targetMap = new HashMap<Integer, Color>();
-        targetMap.put(1, Color.YELLOW);
+        Map<Integer, FrankensteinColor> targetMap = new HashMap<Integer, FrankensteinColor>();
+        targetMap.put(1, new AwtColor(Color.YELLOW));
 
         FrankensteinBufferedImage fbi = (FrankensteinBufferedImage) new FrankensteinBufferedImage(bi).replaceColors(sourceMap, targetMap);
         BufferedImage result = fbi.getImpl();

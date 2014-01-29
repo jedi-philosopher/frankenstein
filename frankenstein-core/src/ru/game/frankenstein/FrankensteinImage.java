@@ -19,7 +19,6 @@ package ru.game.frankenstein;
 import ru.game.frankenstein.util.Rectangle;
 import ru.game.frankenstein.util.Size;
 
-import java.awt.*;
 import java.util.Map;
 
 /**
@@ -63,7 +62,7 @@ public interface FrankensteinImage
      */
     public FrankensteinImage getSubImage(Rectangle rectangle);
 
-    public FrankensteinImage replaceColors(Map<Color, Integer> sourceColors, Map<Integer, Color> newColors);
+    public FrankensteinImage replaceColors(Map<FrankensteinColor, Integer> sourceColors, Map<Integer, FrankensteinColor> newColors);
 
     public FrankensteinImage resize(Size targetSize, boolean constrainProportions);
 

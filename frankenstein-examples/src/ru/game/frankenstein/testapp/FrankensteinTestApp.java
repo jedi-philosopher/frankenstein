@@ -24,11 +24,11 @@ package ru.game.frankenstein.testapp;
 
 import org.apache.commons.cli.*;
 import ru.game.frankenstein.*;
+import ru.game.frankenstein.awt.imageio.BufferedImageFactory;
+import ru.game.frankenstein.awt.imageio.ColorUtils;
+import ru.game.frankenstein.awt.imageio.FrankensteinBufferedImage;
 import ru.game.frankenstein.impl.MonsterPartsLoader;
-import ru.game.frankenstein.impl.imageio.BufferedImageFactory;
-import ru.game.frankenstein.impl.imageio.FrankensteinBufferedImage;
 import ru.game.frankenstein.util.CollectionUtils;
-import ru.game.frankenstein.util.ColorUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
