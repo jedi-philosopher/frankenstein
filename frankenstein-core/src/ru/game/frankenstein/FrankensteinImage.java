@@ -62,7 +62,7 @@ public interface FrankensteinImage
      */
     public FrankensteinImage getSubImage(Rectangle rectangle);
 
-    public FrankensteinImage replaceColors(Map<FrankensteinColor, Integer> sourceColors, Map<Integer, FrankensteinColor> newColors);
+    public FrankensteinImage replaceColors(Map<? extends FrankensteinColor, Integer> sourceColors, Map<Integer, ? extends FrankensteinColor> newColors);
 
     public FrankensteinImage resize(Size targetSize, boolean constrainProportions);
 

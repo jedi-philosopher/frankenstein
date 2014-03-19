@@ -109,7 +109,7 @@ public class FrankensteinBufferedImage implements FrankensteinImage
     }
 
     @Override
-    public FrankensteinImage replaceColors(Map<FrankensteinColor, Integer> sourceColors, Map<Integer, FrankensteinColor> newColors) {
+    public FrankensteinImage replaceColors(Map<? extends FrankensteinColor, Integer> sourceColors, Map<Integer, ? extends FrankensteinColor> newColors) {
         if (sourceColors == null || sourceColors.isEmpty() || newColors == null || newColors.isEmpty()) {
             return this;
         }

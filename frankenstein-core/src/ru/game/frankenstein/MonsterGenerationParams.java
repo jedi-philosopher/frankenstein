@@ -52,7 +52,7 @@ public class MonsterGenerationParams
      * Monster color map. Base colors, used for sprites in monster parts library and described in library specification, will be replaced by
      * colors from this map with matching id.
      */
-    public Map<Integer, FrankensteinColor> colorMap;
+    public Map<Integer, ? extends FrankensteinColor> colorMap;
 
     /**
      * If set, result monster image will be resized to this size
