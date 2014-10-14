@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public class FrankensteinBufferedImage implements FrankensteinImage
 {
-    private BufferedImage myImage;
+    private final BufferedImage myImage;
 
     public FrankensteinBufferedImage(BufferedImage myImage) {
         this.myImage = myImage;

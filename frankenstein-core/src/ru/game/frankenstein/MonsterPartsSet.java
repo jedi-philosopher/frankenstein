@@ -17,7 +17,6 @@
 package ru.game.frankenstein;
 
 import java.util.*;
-import java.util.List;
 
 /**
  * Contains a set of monster parts and some additional settings that they have (such as base colors)
@@ -33,7 +32,7 @@ public class MonsterPartsSet
     /**
      * Parts used in this set
      */
-    private Map<MonsterPartType, Collection<MonsterPart>> parts;
+    private final Map<MonsterPartType, Collection<MonsterPart>> parts;
 
     /**
      * List of images containing drops of blood, that will be used when creating 'dead' monster sprite

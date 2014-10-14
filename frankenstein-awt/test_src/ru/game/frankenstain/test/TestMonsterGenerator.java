@@ -16,7 +16,7 @@
 
 package ru.game.frankenstain.test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import ru.game.frankenstein.*;
 import ru.game.frankenstein.awt.imageio.BufferedImageFactory;
@@ -69,7 +69,7 @@ public class TestMonsterGenerator
 
         MonsterGenerator generator = new MonsterGenerator(testImageFactory, set);
 
-        Monster m = generator.generateMonster(new MonsterGenerationParams(false, false, null));
+        Monster m = generator.generateMonster(new MonsterGenerationParams(false, false));
 
         BufferedImage resultImage = ((FrankensteinBufferedImage)m.monsterImage).getImpl();
 
@@ -107,7 +107,7 @@ public class TestMonsterGenerator
 
         MonsterGenerator generator = new MonsterGenerator(testImageFactory, set);
 
-        Monster m = generator.generateMonster(new MonsterGenerationParams(false, false, null));
+        Monster m = generator.generateMonster(new MonsterGenerationParams(false, false));
 
         BufferedImage resultImage = ((FrankensteinBufferedImage)m.monsterImage).getImpl();
 

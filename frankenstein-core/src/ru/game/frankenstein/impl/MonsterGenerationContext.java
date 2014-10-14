@@ -32,9 +32,9 @@ public class MonsterGenerationContext
     /**
      * Axis-aligned rectangle that contains whole generated sprite inside it. Used for cropping.
      */
-    private Rectangle cropRect = new Rectangle();
+    private final Rectangle cropRect = new Rectangle();
 
-    private FrankensteinImage canvas;
+    private final FrankensteinImage canvas;
 
     /**
      * Number of monster parts of type 'BODY' used in this monster. Works as a restriction to prevent infinite generation
@@ -44,7 +44,7 @@ public class MonsterGenerationContext
     /**
      * Contains information about groups. All attachment points within same group receive same monster part
      */
-    private Map<String, MonsterPart> groups = new HashMap<String, MonsterPart>();
+    private final Map<String, MonsterPart> groups = new HashMap<String, MonsterPart>();
 
     public static final int CANVAS_WIDTH = 400;
 

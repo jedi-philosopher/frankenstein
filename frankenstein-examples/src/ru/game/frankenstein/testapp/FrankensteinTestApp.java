@@ -43,7 +43,7 @@ import java.util.Random;
  */
 public class FrankensteinTestApp
 {
-    public static Color[] supportedColors =  {new Color(0x00697436), new Color(0x00a12e00), new Color(0x00ad5400), new Color(0x005f4d96), new Color(0x00966e00)};
+    public static final Color[] supportedColors =  {new Color(0x00697436), new Color(0x00a12e00), new Color(0x00ad5400), new Color(0x005f4d96), new Color(0x00966e00)};
 
     public static void main(String[] args)
     {
@@ -95,7 +95,10 @@ public class FrankensteinTestApp
 
         File outputDir = new File(outputDirPath);
         if (!outputDir.exists()) {
-            outputDir.mkdirs();
+            if (!outputDir.mkdirs()) {
+                System.err.println("Failed to create output dir, mkdirs() returned false");
+                return;
+            }
         } else {
             if (!outputDir.isDirectory()) {
                 System.err.println("Output path is not a directory");

@@ -21,9 +21,9 @@ package ru.game.frankenstein.util;
  */
 public class Size
 {
-    public int width;
+    public final int width;
 
-    public int height;
+    public final int height;
 
     public Size(int height, int width) {
         this.height = height;

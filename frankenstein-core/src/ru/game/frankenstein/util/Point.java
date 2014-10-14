@@ -21,9 +21,9 @@ package ru.game.frankenstein.util;
  */
 public class Point
 {
-    public int x;
+    public final int x;
 
-    public int y;
+    public final int y;
 
     public Point(int x, int y) {
         this.y = y;
