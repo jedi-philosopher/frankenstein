@@ -37,9 +37,9 @@ public class MonsterGenerator
      */
     public static final int BODY_LIMIT = 3;
 
-    private ImageFactory myImageFactory;
+    private final ImageFactory myImageFactory;
 
-    private MonsterPartsSet partsSet;
+    private final MonsterPartsSet partsSet;
 
     private static final int RETRY_COUNT = 5;
 

@@ -1,6 +1,6 @@
 package ru.game.frankenstain.test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import ru.game.frankenstein.FrankensteinColor;
 import ru.game.frankenstein.awt.imageio.AwtColor;

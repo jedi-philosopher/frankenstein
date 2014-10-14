@@ -28,9 +28,9 @@ import java.util.Map;
 
 public class TestImageFactory implements ImageFactory
 {
-    private Map<String, FrankensteinImage> map = new HashMap<String, FrankensteinImage>();
+    private final Map<String, FrankensteinImage> map = new HashMap<String, FrankensteinImage>();
 
-    private ImageFactory impl;
+    private final ImageFactory impl;
 
     public TestImageFactory(ImageFactory impl) {
         this.impl = impl;

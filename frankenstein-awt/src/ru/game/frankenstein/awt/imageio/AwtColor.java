@@ -39,9 +39,8 @@ public class AwtColor implements FrankensteinColor
 
         AwtColor awtColor = (AwtColor) o;
 
-        if (!color.equals(awtColor.color)) return false;
+        return color.equals(awtColor.color);
 
-        return true;
     }
 
     @Override

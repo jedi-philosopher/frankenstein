@@ -398,9 +398,6 @@
     </profiles>
     <list size="0" />
   </component>
-  <component name="AntConfiguration">
-    <defaultAnt bundledAnt="true" />
-  </component>
   <component name="ArtifactManager">
     <artifact name="Distribution">
       <output-path>$PROJECT_DIR$/out/artifacts/Distribution</output-path>
@@ -644,6 +641,13 @@
         <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
       </item>
     </group>
+  </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="User">
+      <words>
+        <w>smirnov</w>
+      </words>
+    </dictionary>
   </component>
   <component name="ProjectModuleManager">
     <modules>
