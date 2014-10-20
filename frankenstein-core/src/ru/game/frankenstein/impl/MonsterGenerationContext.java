@@ -136,4 +136,9 @@ public class MonsterGenerationContext
             throw new FrankensteinException("Can not generate monster, as no MONSTER_BODY parts are available because of provided restrictions (check your tags)");
         }
     }
+
+    public void destroy()
+    {
+        canvas.destroy();
+    }
 }
