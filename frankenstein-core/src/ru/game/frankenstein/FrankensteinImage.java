@@ -76,4 +76,10 @@ public interface FrankensteinImage
      * Create a bounding box for an image and crop using it
      */
     public FrankensteinImage cropImage();
+
+    /**
+     * Should be called when image is no longer needed, as subclasses can contain
+     * some native image object, that should be released manually
+     */
+    public void destroy();
 }

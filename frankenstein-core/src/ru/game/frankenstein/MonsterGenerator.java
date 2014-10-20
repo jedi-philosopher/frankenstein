@@ -65,10 +65,16 @@ public class MonsterGenerator
 
         FrankensteinImage resultMonsterImage = context.getCroppedImage();
 
-        resultMonsterImage = resultMonsterImage.replaceColors(partsSet.getBaseColors(), params.colorMap);
+        final FrankensteinImage resultMonsterImageWithReplacedColors = resultMonsterImage.replaceColors(partsSet.getBaseColors(), params.colorMap);
+        if (resultMonsterImage != resultMonsterImageWithReplacedColors) {
+            resultMonsterImage.destroy();
+            resultMonsterImage = resultMonsterImageWithReplacedColors;
+        }
 
         if (params.targetSize != null) {
-            resultMonsterImage = resultMonsterImage.resize(params.targetSize, params.constrainProportions);
+            FrankensteinImage resultMonsterImageResized = resultMonsterImage.resize(params.targetSize, params.constrainProportions);
+            resultMonsterImage.destroy();
+            resultMonsterImage = resultMonsterImageResized;
         }
 
         FrankensteinImage deadImage = null;
@@ -76,9 +82,17 @@ public class MonsterGenerator
             deadImage = createCorpseImage(params, resultMonsterImage);
         }
 
-        resultMonsterImage = addShadow(params.shadowType, resultMonsterImage).cropImage();
+        final FrankensteinImage withShadow = addShadow(params.shadowType, resultMonsterImage);
+        if (withShadow != resultMonsterImage) {
+            resultMonsterImage.destroy();
+            resultMonsterImage = withShadow;
+        }
 
-        return new Monster(resultMonsterImage, deadImage, null, null);
+        final Monster monster = new Monster(resultMonsterImage.cropImage(), deadImage, null, null);
+        context.destroy();
+        resultMonsterImage.destroy();
+
+        return monster;
     }
 
     private FrankensteinImage addShadow(MonsterGenerationParams.ShadowType type, FrankensteinImage original)
@@ -104,6 +118,7 @@ public class MonsterGenerator
             FrankensteinImage canvas = myImageFactory.createImage(Math.max(original.getWidth(), shadowImage.getWidth()), Math.max(original.getHeight(), shadowImage.getHeight()));
             canvas.draw(shadowImage, 0, canvas.getHeight() - shadowImage.getHeight(), 0, 0, 0);
             canvas.draw(original, 0, 0, 0, 0, 0);
+            shadowImage.destroy();
             return canvas;
         }
 
@@ -129,6 +144,8 @@ public class MonsterGenerator
             // draw blood drops at center
             result.draw(bloodImage, result.getWidth() / 2 - 32, result.getHeight() - bloodImage.getHeight(), 0, 0, 0);
             result.draw(withShadow, 0, 0, 0, 0, 0);
+            withShadow.destroy();
+            flippedSource.destroy();
         } else {
             // draw blood drops at center
 
@@ -137,8 +154,12 @@ public class MonsterGenerator
             result = myImageFactory.createImage(withShadow.getWidth(), withShadow.getHeight() + bloodImage.getHeight() / 3);
             result.draw(bloodImage, result.getWidth() / 2 - 32, result.getHeight() - bloodImage.getHeight(), 0, 0, 0);
             result.draw(withShadow, 0, 0, 0, 0, 0);
+            withShadow.destroy();
+            rotated.destroy();
         }
-        return result.cropImage();
+        FrankensteinImage croppedResult = result.cropImage();
+        result.destroy();
+        return croppedResult;
     }
 
     /**
@@ -176,6 +197,9 @@ public class MonsterGenerator
         int cropY = Math.min(context.getCropRect().getY(), AABB.getY());
         context.getCropRect().setCoordinates(cropX, cropY, Math.max(context.getCropRect().getX() + context.getCropRect().getWidth(), AABB.getX() + AABB.getWidth()) - cropX, Math.max(context.getCropRect().getY() + context.getCropRect().getHeight(), AABB.getY() + AABB.getHeight()) - cropY);
 
+        if (sourcePoint.flipHorizontal || sourcePoint.flipVertical) {
+            image.destroy();
+        }
     }
 
     private MonsterPart selectRandomPartForPoint(MonsterGenerationContext context, AttachmentPoint ap) {

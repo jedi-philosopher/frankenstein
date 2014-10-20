@@ -224,4 +224,9 @@ public class FrankensteinBufferedImage implements FrankensteinImage
 
         return getSubImage(new Rectangle(leftX, topY, rightX - leftX + 1, bottomY - topY + 1));
     }
+
+    @Override
+    public void destroy() {
+        // nothing
+    }
 }
