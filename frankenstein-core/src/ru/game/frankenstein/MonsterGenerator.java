@@ -191,7 +191,7 @@ public class MonsterGenerator
 
         context.getCanvas().draw(image, x, y, centerX, centerY, sourcePoint.angle + sourceAngle);
 
-        Rectangle AABB = GeometryUtils.getRotatedRectangleAABB(x + centerX, y + centerY, x, y, x + image.getWidth(), y + image.getHeight(), (float) Math.toRadians(sourcePoint.angle + sourceAngle));
+        Rectangle AABB = GeometryUtils.getRotatedRectangleAABB(x + centerX, y + centerY, x, y, x + image.getWidth() + 1, y + image.getHeight() + 1, (float) Math.toRadians(sourcePoint.angle + sourceAngle));
 
         int cropX = Math.min(context.getCropRect().getX(), AABB.getX());
         int cropY = Math.min(context.getCropRect().getY(), AABB.getY());
