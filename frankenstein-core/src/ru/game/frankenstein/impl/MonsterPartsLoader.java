@@ -23,13 +23,9 @@
 package ru.game.frankenstein.impl;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import ru.game.frankenstein.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,18 +53,24 @@ public class MonsterPartsLoader
         }
     }
 
-    public static MonsterPartsSet loadFromJSON(ImageFactory imageFactory, InputStream json) throws FileNotFoundException {
+    public static MonsterPartsSet loadFromJSON(ImageFactory imageFactory, File json) throws FrankensteinException {
         Gson gson = new Gson();
-        MonsterPartsSetJSONDescription descr = gson.fromJson(new InputStreamReader(json), MonsterPartsSetJSONDescription.class);
+        final File root = json.getParentFile();
+        MonsterPartsSetJSONDescription descr = null;
+        try {
+            descr = gson.fromJson(new FileReader(json), MonsterPartsSetJSONDescription.class);
+        } catch (FileNotFoundException e) {
+            throw new FrankensteinException("Failed to find parts library file", e);
+        }
 
         MonsterPartsSet result = new MonsterPartsSet();
         for (String filePath : descr.partFiles) {
             try {
-                MonsterPart[] parts = gson.fromJson(new FileReader(filePath), MonsterPart[].class);
+                MonsterPart[] parts = gson.fromJson(new FileReader(new File(root, filePath)), MonsterPart[].class);
                 result.addParts(parts);
-            } catch (JsonSyntaxException ex) {
+            } catch (Exception ex) {
                 System.err.println("Failed to parse json file " + filePath);
-                throw ex;
+                throw new FrankensteinException("Exception while parsing " + filePath, ex);
             }
         }
 

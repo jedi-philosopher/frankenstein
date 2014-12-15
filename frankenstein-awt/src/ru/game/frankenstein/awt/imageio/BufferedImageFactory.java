@@ -25,37 +25,47 @@ import ru.game.frankenstein.ImageFactory;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Loads buffered images
  */
 public class BufferedImageFactory implements ImageFactory
 {
+    private File root;
+
+    public BufferedImageFactory() {
+    }
+
+    public BufferedImageFactory(File root) {
+        this.root = root;
+    }
+
+    public BufferedImageFactory(String s) {
+        this(new File(s));
+    }
+
     @Override
     public FrankensteinImage loadImage(String file) throws FrankensteinException {
         File f = new File(file);
         if (f.exists()) {
             return loadImage(f);
         }
-        InputStream is = BufferedImageFactory.class.getClassLoader().getResourceAsStream(file);
+        InputStream is;
         try {
-            if (is != null) {
-                return loadImage(is);
-            }
+            is = new FileInputStream(new File(root, file));
+        } catch (FileNotFoundException e) {
+            throw new FrankensteinException(e);
+        }
+        try {
+            return loadImage(is);
         } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    // ignore
-                }
+            try {
+                is.close();
+            } catch (IOException e) {
+                // ignore
             }
         }
-
-        throw new FrankensteinException("Failed to find image " + file);
     }
 
     @Override
