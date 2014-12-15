@@ -36,7 +36,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Test application that creates some monster images using test image set
@@ -80,11 +82,11 @@ public class FrankensteinTestApp
         String outputDirPath = commandLine.getOptionValue('o');
         int count = Integer.parseInt(commandLine.getOptionValue('c', "3"));
 
-        final BufferedImageFactory imageFactory = new BufferedImageFactory();
+        final BufferedImageFactory imageFactory = new BufferedImageFactory("D:\\Prog\\Aurora\\resources\\animal_parts");
         MonsterPartsSet partsSet;
         try {
-            partsSet = MonsterPartsLoader.loadFromJSON(imageFactory, new FileInputStream(inputLibrary));
-        } catch (FileNotFoundException e) {
+            partsSet = MonsterPartsLoader.loadFromJSON(imageFactory, new File(inputLibrary));
+        } catch (FrankensteinException e) {
             System.err.println("Failed to load monster parts collection");
             e.printStackTrace();
             return;
@@ -106,7 +108,9 @@ public class FrankensteinTestApp
             }
         }
         Random myRandom = commandLine.hasOption('s') ? new Random(Integer.parseInt(commandLine.getOptionValue('s'))) : new Random();
-        MonsterGenerationParams params = new MonsterGenerationParams(commandLine.hasOption('d'), false, null, myRandom);
+        Set<String> tagSet = new HashSet<String>();
+        tagSet.add("style3");
+        MonsterGenerationParams params = new MonsterGenerationParams(commandLine.hasOption('d'), false, tagSet, myRandom);
         params.shadowType = MonsterGenerationParams.ShadowType.SHADOW_SKEW;
         for (int i = 0; i < count; ++i)
         {
