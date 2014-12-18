@@ -49,7 +49,7 @@
             }
 
         ],
-        "imageId" : "test_set/body1.png"
+        "imageId" : "body1.png"
     },
 
     {
@@ -112,7 +112,7 @@
             }
 
         ],
-        "imageId" : "test_set/body2.png",
+        "imageId" : "body2.png",
         "centerX" : 32,
         "centerY" : 50
     },
@@ -177,7 +177,7 @@
             }
 
         ],
-        "imageId" : "test_set/body3.png",
+        "imageId" : "body3.png",
         "centerX" : 32,
         "centerY" : 50
     },
@@ -214,7 +214,7 @@
             }
 
         ],
-        "imageId" : "test_set/body4.png",
+        "imageId" : "body4.png",
         "centerX" : 32,
         "centerY" : 50
     },
@@ -288,7 +288,7 @@
                 ]
             }
         ],
-        "imageId" : "test_set/body5.png",
+        "imageId" : "body5.png",
         "centerX" : 32,
         "centerY" : 50
     }

@@ -1,3 +1,11 @@
+Version 0.1.2
+IN PROGRESS
+* All paths in parts library are now relative to library .json and do not depend on java classpath
+* Code improvements that ease library extending
+* Fixed incorrect image cropping
+
+===================================
+
 Version 0.1.1
 29.01.2014
 
