@@ -10,7 +10,7 @@
                 ]
             }
         ],
-        "imageId": "test_set/dec3.png",
+        "imageId": "dec3.png",
         "tags" : [
             "carnivore", "predator"
         ]
@@ -26,7 +26,7 @@
                 ]
             }
         ],
-        "imageId": "test_set/mouth.png"
+        "imageId": "mouth.png"
     },
     {
         "type": "MONSTER_DECORATION",
@@ -39,7 +39,7 @@
                 ]
             }
         ],
-        "imageId": "test_set/mouth1.png",
+        "imageId": "mouth1.png",
         "tags" : [
                 "carnivore", "predator"
         ]
@@ -55,6 +55,6 @@
                 ]
             }
         ],
-        "imageId": "test_set/mouth2.png"
+        "imageId": "mouth2.png"
     }
 ]

@@ -10,7 +10,7 @@
                 ]
             }
         ],
-        "imageId" : "test_set/dec1.png"
+        "imageId" : "dec1.png"
     },
     {
         "type":"MONSTER_DECORATION",
@@ -24,7 +24,7 @@
             }
 
         ],
-        "imageId" : "test_set/dec2.png"
+        "imageId" : "dec2.png"
     },
 
     {
@@ -39,7 +39,7 @@
             }
 
         ],
-        "imageId" : "test_set/dec4.png"
+        "imageId" : "dec4.png"
     },
 
     {
@@ -54,6 +54,6 @@
             }
 
         ],
-        "imageId" : "test_set/dec5.png"
+        "imageId" : "dec5.png"
     }
 ]

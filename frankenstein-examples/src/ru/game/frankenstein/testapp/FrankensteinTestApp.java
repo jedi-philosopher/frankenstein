@@ -81,11 +81,12 @@ public class FrankensteinTestApp
         String inputLibrary = commandLine.getOptionValue('i');
         String outputDirPath = commandLine.getOptionValue('o');
         int count = Integer.parseInt(commandLine.getOptionValue('c', "3"));
+        final File libraryFile = new File(inputLibrary);
 
-        final BufferedImageFactory imageFactory = new BufferedImageFactory("D:\\Prog\\Aurora\\resources\\animal_parts");
+        final BufferedImageFactory imageFactory = new BufferedImageFactory(libraryFile.getParentFile());
         MonsterPartsSet partsSet;
         try {
-            partsSet = MonsterPartsLoader.loadFromJSON(imageFactory, new File(inputLibrary));
+            partsSet = MonsterPartsLoader.loadFromJSON(imageFactory, libraryFile);
         } catch (FrankensteinException e) {
             System.err.println("Failed to load monster parts collection");
             e.printStackTrace();

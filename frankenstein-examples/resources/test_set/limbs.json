@@ -11,7 +11,7 @@
             }
 
         ],
-        "imageId" : "test_set/limb1.png"
+        "imageId" : "limb1.png"
     },
     {
         "type": "MONSTER_LIMB",
@@ -24,7 +24,7 @@
                 ]
             }
         ],
-        "imageId" : "test_set/limb2.png"
+        "imageId" : "limb2.png"
     },
     {
         "type": "MONSTER_LIMB",
@@ -37,7 +37,7 @@
                 ]
             }
         ],
-        "imageId" : "test_set/limb3.png"
+        "imageId" : "limb3.png"
     },
     {
         "type": "MONSTER_LIMB",
@@ -50,7 +50,7 @@
                 ]
             }
         ],
-        "imageId" : "test_set/limb4.png"
+        "imageId" : "limb4.png"
     },
     {
         "type": "MONSTER_LIMB",
@@ -63,7 +63,7 @@
                 ]
             }
         ],
-        "imageId" : "test_set/limb5.png"
+        "imageId" : "limb5.png"
     },
     {
         "type": "MONSTER_LIMB",
@@ -76,7 +76,7 @@
                 ]
             }
         ],
-        "imageId" : "test_set/limb6.png"
+        "imageId" : "limb6.png"
     },
     {
         "type": "MONSTER_LIMB",
@@ -89,7 +89,7 @@
                 ]
             }
         ],
-        "imageId" : "test_set/limb7.png"
+        "imageId" : "limb7.png"
     },
     {
         "type": "MONSTER_LIMB",
@@ -102,6 +102,6 @@
                 ]
             }
         ],
-        "imageId" : "test_set/limb8.png"
+        "imageId" : "limb8.png"
     }
 ]
