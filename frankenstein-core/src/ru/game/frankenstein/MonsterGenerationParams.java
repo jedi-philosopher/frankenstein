@@ -29,13 +29,13 @@ public class MonsterGenerationParams
      * If true, 'dead' monster image will be generated in addition to base image. Dead image represents monster lying on its side,
      * with a pool of blood beneath it.
      */
-    public final boolean generateDead;
+    public boolean generateDead;
 
     /**
      * If true, monster will have text description generated. Text descriptions are created by combining descriptions of individual
      * monster parts, that were used in generation of this monster.
      */
-    public final boolean generateText;
+    public boolean generateText;
 
     /**
      * If set, only those monster parts, that have at least one tag from this list, will be used in generation
@@ -46,7 +46,7 @@ public class MonsterGenerationParams
      * Random used in generation. User can provide fixed-seed random to generate same monster image multiple times (so no need to store generated
      * images between program runs, only seed value needs to be stored).
      */
-    public final Random random;
+    public Random random;
 
     /**
      * Monster color map. Base colors, used for sprites in monster parts library and described in library specification, will be replaced by
@@ -57,7 +57,7 @@ public class MonsterGenerationParams
     /**
      * If set, result monster image will be resized to this size
      */
-    public final Size targetSize = null;
+    public Size targetSize = null;
 
     public static enum ShadowType
     {
@@ -81,7 +81,7 @@ public class MonsterGenerationParams
      * If targetSize is not-null, this value defines resizing approach: either constrain proportions and fit monster image into rectangle of
      * given size (it can still be smaller on one of the sides), or to stretch generated sprite exactly to targetSize
      */
-    public final boolean constrainProportions = true;
+    public boolean constrainProportions = true;
 
     public MonsterGenerationParams() {
         this(true, false, Collections.<String>emptySet());

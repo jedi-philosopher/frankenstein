@@ -53,10 +53,14 @@ public class MonsterPartsLoader
         }
     }
 
+    public static MonsterPartsSet loadFromJSON(ImageFactory imageFactory, String jsonFilePath) throws FrankensteinException {
+        return loadFromJSON(imageFactory, new File(jsonFilePath));
+    }
+
     public static MonsterPartsSet loadFromJSON(ImageFactory imageFactory, File json) throws FrankensteinException {
         Gson gson = new Gson();
         final File root = json.getParentFile();
-        MonsterPartsSetJSONDescription descr = null;
+        MonsterPartsSetJSONDescription descr;
         try {
             descr = gson.fromJson(new FileReader(json), MonsterPartsSetJSONDescription.class);
         } catch (FileNotFoundException e) {
